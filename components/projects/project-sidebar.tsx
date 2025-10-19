@@ -60,7 +60,7 @@ export function ProjectSidebar({ activeView, onViewChange, promptCount = 0, proj
                   'w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 group relative font-semibold',
                   isActive
                     ? 'bg-marian-blue text-white dark:bg-light-blue dark:text-dark-purple shadow-lg border-l-4 border-federal-blue dark:border-mint-green'
-                    : 'hover:bg-light-blue/30 dark:hover:bg-marian-blue/40 border-l-4 border-transparent text-federal-blue dark:text-light-blue'
+                    : 'hover:bg-marian-blue/10 dark:hover:bg-marian-blue/40 border-l-4 border-transparent text-federal-blue dark:text-light-blue bg-gray-50 dark:bg-transparent'
                 )}
               >
                 <div

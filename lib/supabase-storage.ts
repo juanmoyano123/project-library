@@ -167,6 +167,25 @@ export const promptStorage = {
     return (data || []).map(dbToPrompt);
   },
 
+  get: async (id: string): Promise<Prompt | null> => {
+    if (!isSupabaseConfigured()) {
+      return localPromptStorage.get(id);
+    }
+
+    const { data, error } = await supabase
+      .from('prompts')
+      .select('*')
+      .eq('id', id)
+      .single();
+
+    if (error) {
+      console.error('Supabase error, falling back to localStorage:', error);
+      return localPromptStorage.get(id);
+    }
+
+    return data ? dbToPrompt(data) : null;
+  },
+
   getByProject: async (projectId: string): Promise<Prompt[]> => {
     if (!isSupabaseConfigured()) {
       return localPromptStorage.getByProject(projectId);
