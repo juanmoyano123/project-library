@@ -1,0 +1,9 @@
+# PostgreSQL Local Database
+POSTGRES_HOST=localhost
+POSTGRES_PORT=5432
+POSTGRES_DB=project_library
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=your_postgres_password_here
+
+# Claude API
+ANTHROPIC_API_KEY=your_anthropic_api_key_here
