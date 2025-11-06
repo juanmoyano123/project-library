@@ -8,7 +8,9 @@ import {
   Design,
   ProjectMetrics,
   Tool,
-  ProjectTool
+  ProjectTool,
+  Idea,
+  IdeaCombination,
 } from './types';
 
 // Simple in-memory fallback for server-side (no localStorage available)
@@ -361,6 +363,7 @@ type DbFeature = {
   notes: string | null;
   git_commits: string[] | null;
   created_at: Date;
+  updated_at: Date | null;
   started_at: Date | null;
   completed_at: Date | null;
   deployed_to_staging_at: Date | null;
@@ -485,6 +488,7 @@ const dbToFeature = (db: DbFeature): Feature => ({
   notes: db.notes || undefined,
   gitCommits: db.git_commits || undefined,
   createdAt: db.created_at.toISOString(),
+  updatedAt: db.updated_at?.toISOString() || undefined,
   startedAt: db.started_at?.toISOString() || undefined,
   completedAt: db.completed_at?.toISOString() || undefined,
   deployedToStagingAt: db.deployed_to_staging_at?.toISOString() || undefined,
@@ -701,6 +705,19 @@ export const productPlanStorage = {
 
 // M-005: Features Storage
 export const featureStorage = {
+  getAll: async (): Promise<Feature[]> => {
+    if (!isPostgresConfigured()) return [];
+    try {
+      const result = await query<DbFeature>(
+        'SELECT * FROM features ORDER BY created_at ASC'
+      );
+      return result.rows.map(dbToFeature);
+    } catch (error) {
+      console.error('PostgreSQL error in featureStorage.getAll():', error);
+      return [];
+    }
+  },
+
   getByProject: async (projectId: string): Promise<Feature[]> => {
     if (!isPostgresConfigured()) return [];
     try {
@@ -710,7 +727,7 @@ export const featureStorage = {
       );
       return result.rows.map(dbToFeature);
     } catch (error) {
-      console.error('PostgreSQL error:', error);
+      console.error('PostgreSQL error in featureStorage.getByProject():', error);
       return [];
     }
   },
@@ -724,7 +741,7 @@ export const featureStorage = {
       );
       return result.rows.length > 0 ? dbToFeature(result.rows[0]) : null;
     } catch (error) {
-      console.error('PostgreSQL error:', error);
+      console.error('PostgreSQL error in featureStorage.get():', error);
       return null;
     }
   },
@@ -738,15 +755,25 @@ export const featureStorage = {
       );
       return result.rows.map(dbToFeature);
     } catch (error) {
-      console.error('PostgreSQL error:', error);
+      console.error('PostgreSQL error in featureStorage.getByPlan():', error);
       return [];
     }
   },
 
   save: async (feature: Feature): Promise<void> => {
-    if (!isPostgresConfigured()) return;
+    if (!isPostgresConfigured()) {
+      console.error('❌ PostgreSQL not configured in featureStorage.save()');
+      return;
+    }
+
+    console.log('💾 featureStorage.save() called with:', {
+      id: feature.id,
+      status: feature.status,
+      name: feature.name,
+    });
+
     try {
-      await query(
+      const result = await query(
         `INSERT INTO features (
           id, project_id, plan_id, name, description, user_story, priority,
           rice_score, dependencies, blocks_features, status, acceptance_criteria,
@@ -788,8 +815,11 @@ export const featureStorage = {
           feature.deployedToProductionAt || null,
         ]
       );
+
+      console.log('✅ Feature saved successfully to database');
     } catch (error) {
-      console.error('PostgreSQL error:', error);
+      console.error('❌ PostgreSQL error in featureStorage.save():', error);
+      throw error; // Re-throw to let caller handle it
     }
   },
 
@@ -797,8 +827,10 @@ export const featureStorage = {
     if (!isPostgresConfigured()) return;
     try {
       await query('DELETE FROM features WHERE id = $1', [id]);
+      console.log('✅ Feature deleted successfully:', id);
     } catch (error) {
-      console.error('PostgreSQL error:', error);
+      console.error('❌ PostgreSQL error in featureStorage.delete():', error);
+      throw error;
     }
   },
 };
@@ -1016,6 +1048,242 @@ export const projectToolStorage = {
         'DELETE FROM project_tools WHERE project_id = $1 AND tool_id = $2',
         [projectId, toolId]
       );
+    } catch (error) {
+      console.error('PostgreSQL error:', error);
+    }
+  },
+};
+
+// M-009: Idea Mixer - Database types
+type DbIdea = {
+  id: string;
+  user_id: string | null;
+  nombre: string | null;
+  problema: string;
+  mercado_objetivo: string;
+  urgencia: string;
+  tamaño_mercado: string | null;
+  evidencia_demanda: string | null;
+  solucion: string;
+  herramientas_disponibles: string[] | null;
+  integraciones_necesarias: any;
+  informacion_requerida: string[] | null;
+  complejidad_tecnica: number;
+  skills_requeridos: any;
+  tiempo_estimado: any;
+  bloqueadores: string[] | null;
+  tags: string[] | null;
+  categoria: string | null;
+  notas: string | null;
+  favorita: boolean | null;
+  created_at: Date;
+  updated_at: Date | null;
+};
+
+type DbIdeaCombination = {
+  id: string;
+  user_id: string | null;
+  idea_ids: string[];
+  veredicto: string | null;
+  confianza: number | null;
+  analisis_completo: any;
+  created_at: Date;
+};
+
+// Converter functions
+function dbToIdea(dbIdea: DbIdea): Idea {
+  return {
+    id: dbIdea.id,
+    userId: dbIdea.user_id || undefined,
+    nombre: dbIdea.nombre || undefined,
+    problema: dbIdea.problema,
+    mercadoObjetivo: dbIdea.mercado_objetivo,
+    urgencia: dbIdea.urgencia as 'baja' | 'media' | 'alta' | 'crítica',
+    tamañoMercado: dbIdea.tamaño_mercado || undefined,
+    evidenciaDemanda: dbIdea.evidencia_demanda || undefined,
+    solucion: dbIdea.solucion,
+    herramientasDisponibles: dbIdea.herramientas_disponibles || undefined,
+    integracionesNecesarias: dbIdea.integraciones_necesarias || undefined,
+    informacionRequerida: dbIdea.informacion_requerida || undefined,
+    complejidadTecnica: dbIdea.complejidad_tecnica as 1 | 2 | 3 | 4 | 5,
+    skillsRequeridos: dbIdea.skills_requeridos || undefined,
+    tiempoEstimado: dbIdea.tiempo_estimado || undefined,
+    bloqueadores: dbIdea.bloqueadores || undefined,
+    tags: dbIdea.tags || undefined,
+    categoria: dbIdea.categoria || undefined,
+    notas: dbIdea.notas || undefined,
+    favorita: dbIdea.favorita || undefined,
+    createdAt: dbIdea.created_at.toISOString(),
+    updatedAt: dbIdea.updated_at?.toISOString(),
+  };
+}
+
+function dbToIdeaCombination(dbCombo: DbIdeaCombination): IdeaCombination {
+  return {
+    id: dbCombo.id,
+    userId: dbCombo.user_id || undefined,
+    ideaIds: dbCombo.idea_ids,
+    veredicto: dbCombo.veredicto as 'VIABLE' | 'NO_VIABLE' | undefined,
+    confianza: dbCombo.confianza || undefined,
+    analisisCompleto: dbCombo.analisis_completo || undefined,
+    createdAt: dbCombo.created_at.toISOString(),
+  };
+}
+
+// M-009: Idea Storage
+export const ideaStorage = {
+  getAll: async (): Promise<Idea[]> => {
+    if (!isPostgresConfigured()) return [];
+    try {
+      const result = await query<DbIdea>(
+        'SELECT * FROM ideas ORDER BY created_at DESC'
+      );
+      return result.rows.map(dbToIdea);
+    } catch (error) {
+      console.error('PostgreSQL error:', error);
+      return [];
+    }
+  },
+
+  get: async (id: string): Promise<Idea | null> => {
+    if (!isPostgresConfigured()) return null;
+    try {
+      const result = await query<DbIdea>(
+        'SELECT * FROM ideas WHERE id = $1',
+        [id]
+      );
+      return result.rows.length > 0 ? dbToIdea(result.rows[0]) : null;
+    } catch (error) {
+      console.error('PostgreSQL error:', error);
+      return null;
+    }
+  },
+
+  save: async (idea: Idea): Promise<void> => {
+    if (!isPostgresConfigured()) return;
+    try {
+      await query(
+        `INSERT INTO ideas (
+          id, user_id, nombre, problema, mercado_objetivo, urgencia, tamaño_mercado, evidencia_demanda,
+          solucion, herramientas_disponibles, integraciones_necesarias, informacion_requerida,
+          complejidad_tecnica, skills_requeridos, tiempo_estimado, bloqueadores,
+          tags, categoria, notas, favorita
+        ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20)
+        ON CONFLICT (id) DO UPDATE SET
+          nombre = EXCLUDED.nombre,
+          problema = EXCLUDED.problema,
+          mercado_objetivo = EXCLUDED.mercado_objetivo,
+          urgencia = EXCLUDED.urgencia,
+          tamaño_mercado = EXCLUDED.tamaño_mercado,
+          evidencia_demanda = EXCLUDED.evidencia_demanda,
+          solucion = EXCLUDED.solucion,
+          herramientas_disponibles = EXCLUDED.herramientas_disponibles,
+          integraciones_necesarias = EXCLUDED.integraciones_necesarias,
+          informacion_requerida = EXCLUDED.informacion_requerida,
+          complejidad_tecnica = EXCLUDED.complejidad_tecnica,
+          skills_requeridos = EXCLUDED.skills_requeridos,
+          tiempo_estimado = EXCLUDED.tiempo_estimado,
+          bloqueadores = EXCLUDED.bloqueadores,
+          tags = EXCLUDED.tags,
+          categoria = EXCLUDED.categoria,
+          notas = EXCLUDED.notas,
+          favorita = EXCLUDED.favorita`,
+        [
+          idea.id,
+          idea.userId || null,
+          idea.nombre || null,
+          idea.problema,
+          idea.mercadoObjetivo,
+          idea.urgencia,
+          idea.tamañoMercado || null,
+          idea.evidenciaDemanda || null,
+          idea.solucion,
+          idea.herramientasDisponibles || null,
+          JSON.stringify(idea.integracionesNecesarias || []),
+          idea.informacionRequerida || null,
+          idea.complejidadTecnica,
+          JSON.stringify(idea.skillsRequeridos || []),
+          JSON.stringify(idea.tiempoEstimado || {}),
+          idea.bloqueadores || null,
+          idea.tags || null,
+          idea.categoria || null,
+          idea.notas || null,
+          idea.favorita || false,
+        ]
+      );
+    } catch (error) {
+      console.error('PostgreSQL error:', error);
+    }
+  },
+
+  delete: async (id: string): Promise<void> => {
+    if (!isPostgresConfigured()) return;
+    try {
+      await query('DELETE FROM ideas WHERE id = $1', [id]);
+    } catch (error) {
+      console.error('PostgreSQL error:', error);
+    }
+  },
+};
+
+// M-009: Idea Combination Storage
+export const ideaCombinationStorage = {
+  getAll: async (): Promise<IdeaCombination[]> => {
+    if (!isPostgresConfigured()) return [];
+    try {
+      const result = await query<DbIdeaCombination>(
+        'SELECT * FROM idea_combinations ORDER BY created_at DESC'
+      );
+      return result.rows.map(dbToIdeaCombination);
+    } catch (error) {
+      console.error('PostgreSQL error:', error);
+      return [];
+    }
+  },
+
+  get: async (id: string): Promise<IdeaCombination | null> => {
+    if (!isPostgresConfigured()) return null;
+    try {
+      const result = await query<DbIdeaCombination>(
+        'SELECT * FROM idea_combinations WHERE id = $1',
+        [id]
+      );
+      return result.rows.length > 0 ? dbToIdeaCombination(result.rows[0]) : null;
+    } catch (error) {
+      console.error('PostgreSQL error:', error);
+      return null;
+    }
+  },
+
+  save: async (combination: IdeaCombination): Promise<void> => {
+    if (!isPostgresConfigured()) return;
+    try {
+      await query(
+        `INSERT INTO idea_combinations (
+          id, user_id, idea_ids, veredicto, confianza, analisis_completo
+        ) VALUES ($1, $2, $3, $4, $5, $6)
+        ON CONFLICT (id) DO UPDATE SET
+          veredicto = EXCLUDED.veredicto,
+          confianza = EXCLUDED.confianza,
+          analisis_completo = EXCLUDED.analisis_completo`,
+        [
+          combination.id,
+          combination.userId || null,
+          combination.ideaIds,
+          combination.veredicto || null,
+          combination.confianza || null,
+          JSON.stringify(combination.analisisCompleto || {}),
+        ]
+      );
+    } catch (error) {
+      console.error('PostgreSQL error:', error);
+    }
+  },
+
+  delete: async (id: string): Promise<void> => {
+    if (!isPostgresConfigured()) return;
+    try {
+      await query('DELETE FROM idea_combinations WHERE id = $1', [id]);
     } catch (error) {
       console.error('PostgreSQL error:', error);
     }

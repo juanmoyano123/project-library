@@ -4,14 +4,19 @@ import { useState } from 'react';
 import { useProjects } from '@/hooks/use-projects';
 import { ProjectGrid } from '@/components/projects/project-grid';
 import { NewProjectDialog } from '@/components/projects/new-project-dialog';
+import { IdeasSection } from '@/components/projects/ideas-section';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Plus, Search, Sparkles, Rocket } from 'lucide-react';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Plus, Search, Sparkles, Rocket, Lightbulb, FolderKanban } from 'lucide-react';
+import { Idea } from '@/lib/types';
+import { useRouter } from 'next/navigation';
 
 export default function ProjectsPage() {
   const { projects, createProject, deleteProject, updateProject, loading } = useProjects();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const router = useRouter();
 
   const filteredProjects = projects.filter(project =>
     project.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -25,6 +30,67 @@ export default function ProjectsPage() {
       updateProject(id, {
         status: project.status === 'archived' ? 'active' : 'archived',
       });
+    }
+  };
+
+  const handleCreateProjectFromIdea = async (idea: Idea) => {
+    // Usar el nombre generado por IA o generar uno basado en la categoría
+    const projectName = idea.nombre || (idea.categoria
+      ? `${idea.categoria.charAt(0).toUpperCase() + idea.categoria.slice(1)} - ${idea.id}`
+      : `Proyecto ${idea.id}`);
+
+    // Crear descripción detallada
+    const description = `${idea.problema}\n\nSolución: ${idea.solucion}`;
+
+    // Tags: combinar categoría y tags de la idea
+    const tags = [
+      ...(idea.categoria ? [idea.categoria] : []),
+      ...(idea.tags || []),
+    ];
+
+    // Overview detallado para el proyecto
+    const overview = `# ${idea.nombre || 'Proyecto basado en ' + idea.id}
+
+> Proyecto generado desde ${idea.id}
+
+## Problema
+${idea.problema}
+
+## Mercado Objetivo
+${idea.mercadoObjetivo}
+
+## Solución Propuesta
+${idea.solucion}
+
+## Complejidad Técnica
+${idea.complejidadTecnica}/5
+
+${idea.herramientasDisponibles && idea.herramientasDisponibles.length > 0 ? `## Herramientas
+${idea.herramientasDisponibles.join(', ')}` : ''}
+
+${idea.tiempoEstimado ? `## Tiempo Estimado
+- Diseño: ${idea.tiempoEstimado.diseño} semanas
+- Desarrollo: ${idea.tiempoEstimado.desarrollo} semanas
+- Testing: ${idea.tiempoEstimado.testing} semanas
+- **Total: ${idea.tiempoEstimado.diseño + idea.tiempoEstimado.desarrollo + idea.tiempoEstimado.testing} semanas**` : ''}
+
+${idea.bloqueadores && idea.bloqueadores.length > 0 ? `## Bloqueadores Potenciales
+${idea.bloqueadores.map(b => `- ${b}`).join('\n')}` : ''}
+`;
+
+    // Crear el proyecto
+    const newProject = await createProject({
+      name: projectName,
+      description: description,
+      overview: overview,
+      tags: tags.slice(0, 5), // Limitar a 5 tags
+      status: 'active', // Estado inicial del proyecto
+      currentStage: 0, // Inicialización
+    });
+
+    // Redirigir al proyecto creado
+    if (newProject && newProject.id) {
+      router.push(`/projects/${newProject.id}`);
     }
   };
 
@@ -92,34 +158,66 @@ export default function ProjectsPage() {
 
       {/* Content */}
       <div className="container mx-auto px-6 py-16">
-        {/* Search Bar - Neo Style */}
-        <div className="max-w-4xl mx-auto mb-16">
-          <div className="bg-white neo-card p-8">
-            <div className="flex flex-col sm:flex-row items-center gap-4">
-              <div className="relative flex-1 w-full">
-                <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-black" />
-                <Input
-                  placeholder="BUSCAR PROYECTOS..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-12 h-14 text-base font-bold uppercase tracking-wide bg-white neo-border focus:ring-4 focus:ring-[hsl(60,100%,50%)] transition-all"
-                />
-              </div>
-              <div className="flex items-center gap-2 text-sm font-black text-black uppercase bg-[hsl(215,100%,50%)] text-white px-4 py-3 neo-border-sm">
-                <span>
-                  {filteredProjects.length} {filteredProjects.length === 1 ? 'Resultado' : 'Resultados'}
-                </span>
-              </div>
+        {/* Tabs - PROYECTOS | IDEAS */}
+        <div className="max-w-7xl mx-auto">
+          <Tabs defaultValue="proyectos" className="w-full">
+            <div className="flex justify-center mb-8">
+              <TabsList className="neo-border bg-white p-2 gap-2">
+                <TabsTrigger
+                  value="proyectos"
+                  className="data-[state=active]:bg-[hsl(215,100%,50%)] data-[state=active]:text-white data-[state=active]:neo-shadow-sm neo-border-sm font-black uppercase tracking-wide px-8 py-3"
+                >
+                  <FolderKanban className="h-5 w-5 mr-2" />
+                  Proyectos
+                </TabsTrigger>
+                <TabsTrigger
+                  value="ideas"
+                  className="data-[state=active]:bg-[hsl(60,100%,50%)] data-[state=active]:text-black data-[state=active]:neo-shadow-sm neo-border-sm font-black uppercase tracking-wide px-8 py-3"
+                >
+                  <Lightbulb className="h-5 w-5 mr-2" />
+                  Ideas
+                </TabsTrigger>
+              </TabsList>
             </div>
-          </div>
-        </div>
 
-        {/* Projects Grid */}
-        <ProjectGrid
-          projects={filteredProjects}
-          onDelete={deleteProject}
-          onArchive={handleArchive}
-        />
+            {/* PROYECTOS TAB */}
+            <TabsContent value="proyectos" className="space-y-8">
+              {/* Search Bar - Neo Style */}
+              <div className="max-w-4xl mx-auto">
+                <div className="bg-white neo-card p-8">
+                  <div className="flex flex-col sm:flex-row items-center gap-4">
+                    <div className="relative flex-1 w-full">
+                      <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-black" />
+                      <Input
+                        placeholder="BUSCAR PROYECTOS..."
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        className="pl-12 h-14 text-base font-bold uppercase tracking-wide bg-white neo-border focus:ring-4 focus:ring-[hsl(60,100%,50%)] transition-all"
+                      />
+                    </div>
+                    <div className="flex items-center gap-2 text-sm font-black text-black uppercase bg-[hsl(215,100%,50%)] text-white px-4 py-3 neo-border-sm">
+                      <span>
+                        {filteredProjects.length} {filteredProjects.length === 1 ? 'Resultado' : 'Resultados'}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Projects Grid */}
+              <ProjectGrid
+                projects={filteredProjects}
+                onDelete={deleteProject}
+                onArchive={handleArchive}
+              />
+            </TabsContent>
+
+            {/* IDEAS TAB */}
+            <TabsContent value="ideas">
+              <IdeasSection onCreateProject={handleCreateProjectFromIdea} />
+            </TabsContent>
+          </Tabs>
+        </div>
       </div>
 
       <NewProjectDialog

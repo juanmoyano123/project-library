@@ -143,6 +143,7 @@ export interface Feature {
   notes?: string;
   gitCommits?: string[];
   createdAt: string;
+  updatedAt?: string; // Auto-updated by trigger
   startedAt?: string;
   completedAt?: string;
   deployedToStagingAt?: string;
@@ -202,4 +203,71 @@ export interface ProjectTool {
   notes?: string;
   isFavorite?: boolean;
   addedAt: string;
+}
+
+// M-009: Idea Mixer - Ideas y Combinaciones
+export interface IdeaIntegration {
+  nombre: string;
+  api: string;
+  documentacion: string;
+  complejidad: 'baja' | 'media' | 'alta';
+}
+
+export interface IdeaSkill {
+  skill: string;
+  nivelNecesario: 'junior' | 'mid' | 'senior';
+  tenemos: boolean;
+}
+
+export interface IdeaTiempoEstimado {
+  diseño: number;      // semanas
+  desarrollo: number;  // semanas
+  testing: number;     // semanas
+}
+
+export interface Idea {
+  id: string;                    // IDEA-001, IDEA-002...
+  userId?: string;               // Owner de la idea
+  nombre?: string;               // Nombre descriptivo (ej: "Bonds Fintech", "Booking App - Barberías")
+
+  // DEMANDA (Problema → Mercado)
+  problema: string;
+  mercadoObjetivo: string;
+  urgencia: 'baja' | 'media' | 'alta' | 'crítica';
+  tamañoMercado?: string;
+  evidenciaDemanda?: string;
+
+  // OFERTA (Solución → Herramientas)
+  solucion: string;
+  herramientasDisponibles?: string[];
+  integracionesNecesarias?: IdeaIntegration[];
+  informacionRequerida?: string[];
+
+  // ANÁLISIS TÉCNICO
+  complejidadTecnica: 1 | 2 | 3 | 4 | 5;
+  skillsRequeridos?: IdeaSkill[];
+  tiempoEstimado?: IdeaTiempoEstimado;
+  bloqueadores?: string[];
+
+  // METADATA
+  tags?: string[];
+  categoria?: string;            // fintech, saas, marketplace, etc.
+  notas?: string;
+  favorita?: boolean;
+
+  createdAt: string;
+  updatedAt?: string;
+}
+
+export interface IdeaCombination {
+  id: string;
+  userId?: string;
+  ideaIds: string[];             // IDs de las ideas combinadas
+
+  // RESULTADO DEL ANÁLISIS
+  veredicto?: 'VIABLE' | 'NO_VIABLE';
+  confianza?: number;            // 0-100
+  analisisCompleto?: any;        // Todo el análisis de Claude
+
+  createdAt: string;
 }
