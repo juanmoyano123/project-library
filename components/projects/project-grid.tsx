@@ -13,9 +13,9 @@ export function ProjectGrid({ projects, onDelete, onArchive }: ProjectGridProps)
   if (projects.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center py-20 text-center">
-        <div className="text-6xl mb-4">📚</div>
-        <h3 className="text-2xl font-bold mb-2">No hay proyectos</h3>
-        <p className="text-muted-foreground">
+        <div className="text-8xl mb-6 bg-[hsl(60,100%,50%)] neo-border neo-shadow px-8 py-6">📚</div>
+        <h3 className="text-4xl font-black mb-4 uppercase tracking-tight">No hay proyectos</h3>
+        <p className="text-black font-bold text-lg">
           Crea tu primer proyecto para empezar a gestionar tus prompts
         </p>
       </div>

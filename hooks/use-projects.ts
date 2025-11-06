@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { Project, Prompt, ProjectWithPrompts } from '@/lib/types';
-import { projectStorage, promptStorage } from '@/lib/supabase-storage';
+import { projectStorage, promptStorage } from '@/lib/api-storage';
 import { nanoid } from 'nanoid';
 
 export function useProjects() {

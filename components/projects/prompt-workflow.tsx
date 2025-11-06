@@ -7,7 +7,8 @@ import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
-import { Loader2, Sparkles, Copy, CheckCircle2, RotateCcw, Info, Tag, Calendar } from 'lucide-react';
+import { Loader2, Sparkles, Copy, CheckCircle2, RotateCcw, Info, Tag, Calendar, ArrowRight } from 'lucide-react';
+import { Checkbox } from '@/components/ui/checkbox';
 import { STAGE_NAMES, ProjectStage, ProjectStatus } from '@/lib/types';
 
 interface PromptWorkflowProps {
@@ -44,6 +45,7 @@ export function PromptWorkflow({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [copied, setCopied] = useState(false);
+  const [skipImprovement, setSkipImprovement] = useState(false);
 
   const improvePrompt = async () => {
     setLoading(true);
@@ -69,6 +71,12 @@ export function PromptWorkflow({
     } finally {
       setLoading(false);
     }
+  };
+
+  const skipToNextStep = () => {
+    setSkipImprovement(true);
+    setImprovedPrompt(originalPrompt); // Use original as "improved"
+    setStep('improved');
   };
 
   const copyToClipboard = () => {
@@ -210,29 +218,56 @@ export function PromptWorkflow({
               </div>
             )}
             {step === 'original' && (
-              <div className="flex gap-2">
-                <Button
-                  onClick={improvePrompt}
-                  disabled={!originalPrompt.trim() || loading}
-                  className="flex-1 bg-foreground text-background hover:bg-foreground/90 shadow-subtle"
-                >
-                  {loading ? (
-                    <>
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      Mejorando...
-                    </>
+              <div className="space-y-3">
+                <div className="flex items-center space-x-2 p-3 rounded-md bg-muted/30 border border-border/50">
+                  <Checkbox
+                    id="skipImprovement"
+                    checked={skipImprovement}
+                    onCheckedChange={(checked) => setSkipImprovement(checked as boolean)}
+                  />
+                  <label
+                    htmlFor="skipImprovement"
+                    className="text-sm font-light text-muted-foreground cursor-pointer leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                  >
+                    Ya está escrito por Claude Code (no necesita mejora)
+                  </label>
+                </div>
+
+                <div className="flex gap-2">
+                  {skipImprovement ? (
+                    <Button
+                      onClick={skipToNextStep}
+                      disabled={!originalPrompt.trim()}
+                      className="flex-1 bg-foreground text-background hover:bg-foreground/90 shadow-subtle"
+                    >
+                      <ArrowRight className="mr-2 h-4 w-4" />
+                      Continuar al Plan
+                    </Button>
                   ) : (
-                    <>
-                      <Sparkles className="mr-2 h-4 w-4" />
-                      Mejorar con Claude
-                    </>
+                    <Button
+                      onClick={improvePrompt}
+                      disabled={!originalPrompt.trim() || loading}
+                      className="flex-1 bg-foreground text-background hover:bg-foreground/90 shadow-subtle"
+                    >
+                      {loading ? (
+                        <>
+                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                          Mejorando...
+                        </>
+                      ) : (
+                        <>
+                          <Sparkles className="mr-2 h-4 w-4" />
+                          Mejorar con Claude
+                        </>
+                      )}
+                    </Button>
                   )}
-                </Button>
-                {onCancel && (
-                  <Button variant="outline" onClick={onCancel} className="border-border hover:bg-muted">
-                    Cancelar
-                  </Button>
-                )}
+                  {onCancel && (
+                    <Button variant="outline" onClick={onCancel} className="border-border hover:bg-muted">
+                      Cancelar
+                    </Button>
+                  )}
+                </div>
               </div>
             )}
           </CardContent>
@@ -248,10 +283,14 @@ export function PromptWorkflow({
                     <span className="flex items-center justify-center w-6 h-6 rounded-full bg-foreground/10 text-foreground text-xs font-light">
                       2
                     </span>
-                    <span className="text-base font-light">Prompt Mejorado por Claude</span>
+                    <span className="text-base font-light">
+                      {skipImprovement ? 'Tu Prompt de Claude Code' : 'Prompt Mejorado por Claude'}
+                    </span>
                   </CardTitle>
                   <CardDescription className="font-light">
-                    Claude optimizó tu prompt. Cópialo y úsalo en Claude Code.
+                    {skipImprovement
+                      ? 'Prompt listo para ejecutar en Claude Code.'
+                      : 'Claude optimizó tu prompt. Cópialo y úsalo en Claude Code.'}
                   </CardDescription>
                 </div>
                 {step === 'plan' && (
@@ -261,28 +300,34 @@ export function PromptWorkflow({
             </CardHeader>
             <CardContent className="space-y-3">
               <div className="bg-muted/30 border border-border/50 p-4 rounded-lg">
-                <Label className="text-xs font-medium uppercase tracking-widest text-muted-foreground/70 mb-2 block">Prompt Optimizado</Label>
+                <Label className="text-xs font-medium uppercase tracking-widest text-muted-foreground/70 mb-2 block">
+                  {skipImprovement ? 'Prompt Original' : 'Prompt Optimizado'}
+                </Label>
                 <p className="text-sm font-light whitespace-pre-wrap leading-relaxed">{improvedPrompt}</p>
               </div>
               {step === 'improved' && (
                 <div className="flex gap-2">
-                  <Button onClick={copyToClipboard} variant="outline" className="flex-1 border-border hover:bg-muted">
-                    {copied ? (
-                      <>
-                        <CheckCircle2 className="mr-2 h-4 w-4" />
-                        Copiado!
-                      </>
-                    ) : (
-                      <>
-                        <Copy className="mr-2 h-4 w-4" />
-                        Copiar
-                      </>
-                    )}
-                  </Button>
-                  <Button onClick={() => { setStep('original'); setImprovedPrompt(''); }} variant="outline" className="border-border hover:bg-muted">
-                    <RotateCcw className="mr-2 h-4 w-4" />
-                    Regenerar
-                  </Button>
+                  {!skipImprovement && (
+                    <Button onClick={copyToClipboard} variant="outline" className="flex-1 border-border hover:bg-muted">
+                      {copied ? (
+                        <>
+                          <CheckCircle2 className="mr-2 h-4 w-4" />
+                          Copiado!
+                        </>
+                      ) : (
+                        <>
+                          <Copy className="mr-2 h-4 w-4" />
+                          Copiar
+                        </>
+                      )}
+                    </Button>
+                  )}
+                  {!skipImprovement && (
+                    <Button onClick={() => { setStep('original'); setImprovedPrompt(''); setSkipImprovement(false); }} variant="outline" className="border-border hover:bg-muted">
+                      <RotateCcw className="mr-2 h-4 w-4" />
+                      Regenerar
+                    </Button>
+                  )}
                   <Button onClick={() => setStep('plan')} className="flex-1 bg-foreground text-background hover:bg-foreground/90 shadow-subtle">
                     Continuar →
                   </Button>

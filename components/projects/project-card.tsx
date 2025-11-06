@@ -19,41 +19,41 @@ export function ProjectCard({ project, onDelete, onArchive }: ProjectCardProps) 
   const statusConfig = {
     active: {
       label: 'Activo',
-      className: 'bg-mint-green/20 text-federal-blue dark:text-mint-green border-mint-green/40',
+      className: 'bg-[hsl(60,100%,50%)] text-black neo-border-sm neo-shadow-sm',
     },
     completed: {
       label: 'Completado',
-      className: 'bg-light-blue/20 text-marian-blue dark:text-light-blue border-light-blue/40',
+      className: 'bg-[hsl(215,100%,50%)] text-white neo-border-sm neo-shadow-sm',
     },
     archived: {
       label: 'Archivado',
-      className: 'bg-muted text-muted-foreground border-border/50',
+      className: 'bg-gray-300 text-black neo-border-sm',
     },
   };
 
   const status = statusConfig[project.status];
 
   return (
-    <Card className="group relative overflow-hidden hover-lift hover:shadow-elevated hover:glow-blue transition-all duration-300 border border-border bg-card">
-      {/* Gradient top border accent */}
-      <div className="absolute top-0 left-0 right-0 h-px gradient-border" />
+    <Card className="group relative overflow-hidden hover-lift transition-all duration-150 neo-card bg-white">
+      {/* Bold top border */}
+      <div className="absolute top-0 left-0 right-0 h-1 bg-black" />
 
       <CardHeader className="pb-4">
         <div className="flex items-start justify-between gap-3">
-          <div className="space-y-2 flex-1 min-w-0">
+          <div className="space-y-3 flex-1 min-w-0">
             <div className="flex items-center gap-2">
-              <div className="h-1.5 w-1.5 rounded-full bg-light-blue/70" />
+              <div className="h-2 w-2 bg-black" />
               <Badge
                 variant="outline"
-                className={cn('text-[10px] font-medium uppercase tracking-wider shrink-0', status.className)}
+                className={cn('text-[10px] font-black uppercase tracking-wider shrink-0', status.className)}
               >
                 {status.label}
               </Badge>
             </div>
-            <CardTitle className="text-xl font-light tracking-tight truncate text-gradient-accent">
+            <CardTitle className="text-2xl font-black tracking-tight truncate text-black uppercase">
               {project.name}
             </CardTitle>
-            <CardDescription className="line-clamp-2 text-sm font-light leading-relaxed text-light-blue/80">
+            <CardDescription className="line-clamp-2 text-sm font-bold leading-relaxed text-black">
               {project.description}
             </CardDescription>
           </div>
@@ -62,19 +62,19 @@ export function ProjectCard({ project, onDelete, onArchive }: ProjectCardProps) 
               <Button
                 variant="ghost"
                 size="sm"
-                className="h-8 w-8 p-0 opacity-0 group-hover:opacity-100 transition-opacity hover:bg-muted"
+                className="h-8 w-8 p-0 opacity-0 group-hover:opacity-100 transition-opacity hover:bg-gray-200 neo-border-sm"
               >
                 <MoreVertical className="h-4 w-4" />
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuItem asChild>
+            <DropdownMenuContent align="end" className="neo-border neo-shadow bg-white">
+              <DropdownMenuItem asChild className="font-bold cursor-pointer">
                 <Link href={`/projects/${project.id}`}>Ver detalles</Link>
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => onArchive(project.id)}>
+              <DropdownMenuItem onClick={() => onArchive(project.id)} className="font-bold cursor-pointer">
                 {project.status === 'archived' ? 'Desarchivar' : 'Archivar'}
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => onDelete(project.id)} className="text-destructive">
+              <DropdownMenuItem onClick={() => onDelete(project.id)} className="text-[hsl(0,100%,60%)] font-bold cursor-pointer">
                 Eliminar
               </DropdownMenuItem>
             </DropdownMenuContent>
@@ -83,10 +83,10 @@ export function ProjectCard({ project, onDelete, onArchive }: ProjectCardProps) 
       </CardHeader>
 
       <CardContent className="space-y-4">
-        {/* Stage badge - monochrome */}
+        {/* Stage badge - Neo style */}
         <div className="flex items-center gap-2">
           <div className={cn(
-            'px-3 py-1.5 rounded-lg text-xs font-medium tracking-wide border bg-muted/50',
+            'px-3 py-2 text-xs font-black tracking-wide uppercase',
             `stage-badge-${project.currentStage}`
           )}>
             Etapa {project.currentStage}: {STAGE_NAMES[project.currentStage]}
@@ -96,18 +96,18 @@ export function ProjectCard({ project, onDelete, onArchive }: ProjectCardProps) 
         {/* Tags */}
         {project.tags.length > 0 && (
           <div className="flex items-center gap-2 flex-wrap">
-            <Tag className="h-3 w-3 text-muted-foreground/50 shrink-0" />
+            <Tag className="h-4 w-4 text-black shrink-0" />
             {project.tags.slice(0, 3).map((tag, index) => (
               <Badge
                 key={index}
                 variant="secondary"
-                className="text-[10px] font-medium px-2 py-0.5 bg-muted/50 text-muted-foreground border-0"
+                className="text-[10px] font-bold px-2 py-1 bg-white text-black neo-border-sm uppercase"
               >
                 {tag}
               </Badge>
             ))}
             {project.tags.length > 3 && (
-              <Badge variant="outline" className="text-[10px] border-border/50">
+              <Badge variant="outline" className="text-[10px] neo-border-sm font-bold">
                 +{project.tags.length - 3}
               </Badge>
             )}
@@ -115,8 +115,8 @@ export function ProjectCard({ project, onDelete, onArchive }: ProjectCardProps) 
         )}
 
         {/* Date */}
-        <div className="flex items-center gap-2 text-[11px] text-muted-foreground pt-2 border-t border-border/50">
-          <Calendar className="h-3 w-3" />
+        <div className="flex items-center gap-2 text-xs text-black font-bold pt-2 border-t-2 border-black uppercase">
+          <Calendar className="h-4 w-4" />
           <span>{new Date(project.updatedAt).toLocaleDateString('es-ES', {
             day: 'numeric',
             month: 'short',
@@ -127,13 +127,10 @@ export function ProjectCard({ project, onDelete, onArchive }: ProjectCardProps) 
 
       <CardFooter className="pt-0">
         <Link href={`/projects/${project.id}`} className="w-full">
-          <Button
-            variant="ghost"
-            className="w-full justify-between hover:bg-marian-blue/10 hover:text-light-blue transition-all group/btn border border-transparent hover:border-light-blue/30"
-          >
-            <span className="text-sm font-light">Abrir Proyecto</span>
+          <button className="w-full flex items-center justify-between bg-[hsl(0,100%,60%)] text-white neo-btn hover:bg-[hsl(0,100%,55%)] text-sm group/btn">
+            <span>Abrir Proyecto</span>
             <ArrowRight className="h-4 w-4 group-hover/btn:translate-x-1 transition-transform" />
-          </Button>
+          </button>
         </Link>
       </CardFooter>
     </Card>

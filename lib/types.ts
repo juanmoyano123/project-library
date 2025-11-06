@@ -70,40 +70,136 @@ export interface ProjectChecklist {
   updatedAt: string;
 }
 
-// Planner types
-export type TaskStatus = 'pending' | 'in-progress' | 'completed' | 'blocked';
-export type TaskPriority = 'low' | 'medium' | 'high';
+// ================================================
+// V2.0 TYPES - 8-Module System
+// ================================================
 
-export interface PlanTask {
-  id: string;
-  stageId: string;
-  title: string;
-  description: string;
-  status: TaskStatus;
-  priority: TaskPriority;
-  startDate?: string;
-  endDate?: string;
-  estimatedDays?: number;
-  notes: string;
-  completedAt?: string;
-  dependencies: string[];  // IDs of other tasks
-}
-
-export interface PlanStage {
-  id: string;
-  stage: ProjectStage;
-  tasks: PlanTask[];
-  estimatedDuration: number;  // Days
-  actualDuration?: number;
-  startDate?: string;
-  endDate?: string;
-}
-
-export interface ProjectPlan {
+// M-001: Validaciones (Idea Validator)
+export interface Validation {
   id: string;
   projectId: string;
-  overview: string;
-  generatedAt: string;
-  updatedAt: string;
-  stages: PlanStage[];
+  rawIdea: string;
+  targetMarket: string;
+  verdict: 'go' | 'validate_more' | 'no_go';
+  confidenceScore?: number;
+  marketAnalysis: Record<string, any>;
+  problemAnalysis?: string;
+  solutionProposal?: string;
+  adaptationsNeeded?: any[];
+  barriers?: any[];
+  stackRecommendation: Record<string, any>;
+  coreFeatures: any[];
+  outOfScope?: any[];
+  estimatedWeeks?: number;
+  estimatedBudget?: number;
+  validatedBy?: string;
+  validationDate: string;
+  markdownOutput?: string;
+  createdAt: string;
+  status: 'draft' | 'approved';  // Estado de la validación
+  source: 'ai' | 'manual';       // Origen de la validación
+}
+
+// M-002: Product Plans (Product Manager)
+export interface ProductPlan {
+  id: string;
+  projectId: string;
+  validationId?: string;
+  problemStatement: string;
+  solutionStatement: string;
+  valueProposition: string;
+  persona: Record<string, any>;
+  userJourney?: any[];
+  successMetrics: any[];
+  techStack: Record<string, any>;
+  dependencies?: Record<string, any>;
+  estimatedTimelineDays?: number;
+  milestones?: any[];
+  createdBy?: string;
+  createdAt: string;
+  approvedAt?: string;
+  markdownOutput?: string;
+  status: 'draft' | 'approved';  // Estado del plan
+  source: 'ai' | 'manual';       // Origen del plan
+}
+
+// M-005: Features (Tickets & Kanban)
+export interface Feature {
+  id: string; // F-001, F-002, etc.
+  projectId: string;
+  planId?: string;
+  name: string;
+  description?: string;
+  userStory: string;
+  priority: 'P0' | 'P1' | 'P2';
+  riceScore?: Record<string, any>;
+  dependencies?: string[];
+  blocksFeatures?: string[];
+  status: 'todo' | 'in_progress' | 'testing' | 'done';
+  acceptanceCriteria: any[];
+  estimatedHours?: number;
+  actualHours?: number;
+  assignedTo?: string;
+  notes?: string;
+  gitCommits?: string[];
+  createdAt: string;
+  startedAt?: string;
+  completedAt?: string;
+  deployedToStagingAt?: string;
+  deployedToProductionAt?: string;
+}
+
+// M-004: Designs (UX/UI Designer)
+export interface Design {
+  id: string;
+  projectId: string;
+  planId?: string;
+  designSystem: Record<string, any>;
+  screens?: any[];
+  components?: any[];
+  styleGuideUrl?: string;
+  designedBy?: string;
+  createdAt: string;
+  approvedAt?: string;
+}
+
+// M-006: Project Metrics (Dashboard)
+export interface ProjectMetrics {
+  id: string;
+  projectId: string;
+  velocity?: number;
+  avgFeatureHours?: number;
+  estimationAccuracy?: number;
+  burndownData?: any[];
+  raciData?: Record<string, any>;
+  completionPercentage?: number;
+  featuresCompleted?: number;
+  featuresTotal?: number;
+  deploysCount?: number;
+  lastDeployAt?: string;
+  recordedAt: string;
+}
+
+// M-008: Tools (Hub de Herramientas)
+export interface Tool {
+  id: string;
+  name: string;
+  category: 'design' | 'api' | 'deployment' | 'development' | 'latam' | 'inspiration';
+  url: string;
+  description?: string;
+  iconName?: string;
+  requiresApiKey?: boolean;
+  apiKeyPlaceholder?: string;
+  supportedCountries?: string[];
+  createdAt: string;
+}
+
+// M-008: Project Tools (Many-to-Many)
+export interface ProjectTool {
+  projectId: string;
+  toolId: string;
+  apiKeyConfigured?: boolean;
+  notes?: string;
+  isFavorite?: boolean;
+  addedAt: string;
 }
