@@ -9,6 +9,7 @@ import { Badge } from '@/components/ui/badge';
 import { Label } from '@/components/ui/label';
 import { ProjectStatus, ProjectStage } from '@/lib/types';
 import { X } from 'lucide-react';
+import { ThemeSelector } from './theme-selector';
 
 interface NewProjectDialogProps {
   open: boolean;
@@ -19,6 +20,7 @@ interface NewProjectDialogProps {
     status: ProjectStatus;
     currentStage: ProjectStage;
     tags: string[];
+    themeId?: string;
   }) => void;
 }
 
@@ -27,6 +29,7 @@ export function NewProjectDialog({ open, onOpenChange, onCreateProject }: NewPro
   const [description, setDescription] = useState('');
   const [tagInput, setTagInput] = useState('');
   const [tags, setTags] = useState<string[]>([]);
+  const [themeId, setThemeId] = useState<string | undefined>();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -39,6 +42,7 @@ export function NewProjectDialog({ open, onOpenChange, onCreateProject }: NewPro
       status: 'active',
       currentStage: 0,
       tags,
+      themeId,
     });
 
     // Reset form
@@ -46,6 +50,7 @@ export function NewProjectDialog({ open, onOpenChange, onCreateProject }: NewPro
     setDescription('');
     setTags([]);
     setTagInput('');
+    setThemeId(undefined);
     onOpenChange(false);
   };
 
@@ -129,6 +134,9 @@ export function NewProjectDialog({ open, onOpenChange, onCreateProject }: NewPro
                   ))}
                 </div>
               )}
+            </div>
+            <div className="grid gap-2">
+              <ThemeSelector value={themeId} onChange={setThemeId} />
             </div>
           </div>
           <DialogFooter>

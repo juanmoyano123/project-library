@@ -7,7 +7,10 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Idea } from '@/lib/types';
 import { IdeaCard } from './idea-card';
-import { Lightbulb, Search, Filter, Star, Loader2 } from 'lucide-react';
+import { IdeasTable } from './ideas-table';
+import { IntegrationsTable } from './integrations-table';
+import { IdeaDetailModal } from './idea-detail-modal';
+import { Lightbulb, Search, Filter, Star, Loader2, Grid, Table, Plug } from 'lucide-react';
 
 interface IdeasDashboardProps {
   onNewIdea?: () => void;
@@ -23,6 +26,9 @@ export function IdeasDashboard({ onNewIdea, onViewIdea }: IdeasDashboardProps) {
   const [filterCategoria, setFilterCategoria] = useState<string>('all');
   const [sortBy, setSortBy] = useState<string>('recent');
   const [showFavoritesOnly, setShowFavoritesOnly] = useState(false);
+  const [viewMode, setViewMode] = useState<'cards' | 'table' | 'integrations'>('cards');
+  const [selectedIdea, setSelectedIdea] = useState<Idea | null>(null);
+  const [modalOpen, setModalOpen] = useState(false);
 
   useEffect(() => {
     loadIdeas();
@@ -56,6 +62,12 @@ export function IdeasDashboard({ onNewIdea, onViewIdea }: IdeasDashboardProps) {
       console.error('Error deleting idea:', error);
       alert('Error al eliminar la idea');
     }
+  };
+
+  const handleViewIdea = (idea: Idea) => {
+    setSelectedIdea(idea);
+    setModalOpen(true);
+    onViewIdea?.(idea);
   };
 
   // Apply filters
@@ -144,15 +156,48 @@ export function IdeasDashboard({ onNewIdea, onViewIdea }: IdeasDashboardProps) {
                 {ideas.length !== filteredIdeas.length && ` (de ${ideas.length} total)`}
               </CardDescription>
             </div>
-            {onNewIdea && (
-              <Button
-                onClick={onNewIdea}
-                className="border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-1 hover:translate-y-1 transition-all font-bold"
-              >
-                <Lightbulb className="h-4 w-4 mr-2" />
-                Nueva Idea
-              </Button>
-            )}
+            <div className="flex items-center gap-2">
+              {/* View Toggle */}
+              <div className="flex border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
+                <Button
+                  variant={viewMode === 'cards' ? 'default' : 'ghost'}
+                  size="sm"
+                  onClick={() => setViewMode('cards')}
+                  className="rounded-none border-r-2 border-black"
+                  title="Vista de tarjetas"
+                >
+                  <Grid className="h-4 w-4" />
+                </Button>
+                <Button
+                  variant={viewMode === 'table' ? 'default' : 'ghost'}
+                  size="sm"
+                  onClick={() => setViewMode('table')}
+                  className="rounded-none border-r-2 border-black"
+                  title="Vista de tabla"
+                >
+                  <Table className="h-4 w-4" />
+                </Button>
+                <Button
+                  variant={viewMode === 'integrations' ? 'default' : 'ghost'}
+                  size="sm"
+                  onClick={() => setViewMode('integrations')}
+                  className="rounded-none"
+                  title="Vista de integraciones"
+                >
+                  <Plug className="h-4 w-4" />
+                </Button>
+              </div>
+
+              {onNewIdea && (
+                <Button
+                  onClick={onNewIdea}
+                  className="border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-1 hover:translate-y-1 transition-all font-bold"
+                >
+                  <Lightbulb className="h-4 w-4 mr-2" />
+                  Nueva Idea
+                </Button>
+              )}
+            </div>
           </div>
         </CardHeader>
       </Card>
@@ -267,7 +312,7 @@ export function IdeasDashboard({ onNewIdea, onViewIdea }: IdeasDashboardProps) {
         </CardContent>
       </Card>
 
-      {/* Ideas Grid */}
+      {/* Ideas Content */}
       {filteredIdeas.length === 0 ? (
         <Card className="border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
           <CardContent className="py-20 text-center">
@@ -292,18 +337,33 @@ export function IdeasDashboard({ onNewIdea, onViewIdea }: IdeasDashboardProps) {
             )}
           </CardContent>
         </Card>
-      ) : (
+      ) : viewMode === 'cards' ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredIdeas.map(idea => (
             <IdeaCard
               key={idea.id}
               idea={idea}
-              onView={onViewIdea}
+              onView={handleViewIdea}
               onDelete={handleDelete}
             />
           ))}
         </div>
+      ) : viewMode === 'table' ? (
+        <IdeasTable
+          ideas={filteredIdeas}
+          onView={handleViewIdea}
+          onDelete={handleDelete}
+        />
+      ) : (
+        <IntegrationsTable ideas={ideas} />
       )}
+
+      {/* Detail Modal */}
+      <IdeaDetailModal
+        idea={selectedIdea}
+        open={modalOpen}
+        onOpenChange={setModalOpen}
+      />
     </div>
   );
 }

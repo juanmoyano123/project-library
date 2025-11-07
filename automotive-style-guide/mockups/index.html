@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Automotive Excellence - Premium Design System</title>
+    <meta name="description" content="Precision-engineered design solutions for the automotive industry">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Preloader -->
+    <div class="preloader">
+        <div class="spinner">
+            <div class="spinner-box">
+                <div class="spinner-item"></div>
+                <div class="spinner-item"></div>
+                <div class="spinner-item"></div>
+                <div class="spinner-item"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Fixed Header -->
+    <header class="header" id="header">
+        <div class="header-inner">
+            <a href="#home" class="logo" aria-label="Return to homepage">
+                <svg width="120" height="40" viewBox="0 0 120 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="0" y="0" width="30" height="30" fill="currentColor"/>
+                    <rect x="35" y="5" width="20" height="20" fill="currentColor"/>
+                    <rect x="60" y="0" width="30" height="30" fill="currentColor"/>
+                    <rect x="95" y="10" width="25" height="10" fill="currentColor"/>
+                </svg>
+                <span class="visually-hidden">Automotive Excellence</span>
+            </a>
+
+            <button class="menu-toggle" id="menuToggle" aria-expanded="false" aria-label="Open navigation menu">
+                <span class="menu-toggle-inner">
+                    <span class="menu-label">Menu</span>
+                    <span class="menu-icon">
+                        <span class="menu-line"></span>
+                        <span class="menu-line"></span>
+                        <span class="menu-line"></span>
+                    </span>
+                </span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Full-Screen Navigation Menu -->
+    <nav class="nav-menu" id="navMenu">
+        <div class="nav-menu-inner">
+            <button class="menu-close" id="menuClose" aria-label="Close navigation menu">
+                <span class="menu-label">Close</span>
+                <span class="menu-icon close">
+                    <span class="menu-line"></span>
+                    <span class="menu-line"></span>
+                </span>
+            </button>
+
+            <ul class="nav-menu-list">
+                <li class="nav-menu-item" style="--item-index: 0;">
+                    <a href="#about" class="nav-menu-link">About Us</a>
+                </li>
+                <li class="nav-menu-item" style="--item-index: 1;">
+                    <a href="#services" class="nav-menu-link">Services</a>
+                </li>
+                <li class="nav-menu-item" style="--item-index: 2;">
+                    <a href="#portfolio" class="nav-menu-link">Portfolio</a>
+                </li>
+                <li class="nav-menu-item" style="--item-index: 3;">
+                    <a href="#expertise" class="nav-menu-link">Expertise</a>
+                </li>
+                <li class="nav-menu-item" style="--item-index: 4;">
+                    <a href="#contact" class="nav-menu-link">Contact</a>
+                </li>
+            </ul>
+
+            <div class="nav-menu-footer">
+                <a href="#contact" class="btn btn-primary btn-large">Get Started</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Hero Section -->
+        <section class="hero" id="home">
+            <div class="container">
+                <div class="hero-content">
+                    <span class="label">Automotive Excellence</span>
+                    <h1 class="hero-title">
+                        Precision-Engineered Design Solutions
+                    </h1>
+                    <p class="hero-description">
+                        Creating world-class automotive experiences through innovative architecture, cutting-edge technology, and uncompromising attention to detail.
+                    </p>
+                    <div class="hero-actions">
+                        <a href="#portfolio" class="btn btn-primary">View Portfolio</a>
+                        <a href="#services" class="btn btn-secondary">Our Services</a>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <div class="image-wrapper">
+                        <!-- Placeholder for hero image -->
+                        <div class="image-placeholder hero-img"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features/Services Section -->
+        <section class="section section-features" id="services">
+            <div class="container">
+                <header class="section-header">
+                    <span class="label">Our Capabilities</span>
+                    <h2 class="section-title">Industry-Leading Services</h2>
+                    <p class="section-description">
+                        Comprehensive solutions tailored to the unique demands of the automotive sector.
+                    </p>
+                </header>
+
+                <div class="features-grid">
+                    <!-- Feature 1 -->
+                    <article class="feature-card">
+                        <div class="feature-icon">
+                            <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <rect x="8" y="8" width="32" height="32" stroke="currentColor" stroke-width="2"/>
+                                <rect x="14" y="14" width="20" height="20" fill="currentColor"/>
+                            </svg>
+                        </div>
+                        <h3 class="feature-title">Architecture & Design</h3>
+                        <p class="feature-description">
+                            Innovative architectural solutions combining form, function, and cutting-edge technology for showrooms and service centers.
+                        </p>
+                        <a href="#" class="feature-link">Learn more →</a>
+                    </article>
+
+                    <!-- Feature 2 -->
+                    <article class="feature-card">
+                        <div class="feature-icon">
+                            <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="24" cy="24" r="16" stroke="currentColor" stroke-width="2"/>
+                                <circle cx="24" cy="24" r="8" fill="currentColor"/>
+                            </svg>
+                        </div>
+                        <h3 class="feature-title">Master Planning</h3>
+                        <p class="feature-description">
+                            Strategic site development and campus planning that optimizes operational efficiency and customer experience.
+                        </p>
+                        <a href="#" class="feature-link">Learn more →</a>
+                    </article>
+
+                    <!-- Feature 3 -->
+                    <article class="feature-card">
+                        <div class="feature-icon">
+                            <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M8 24L24 8L40 24L24 40L8 24Z" stroke="currentColor" stroke-width="2" fill="currentColor"/>
+                            </svg>
+                        </div>
+                        <h3 class="feature-title">Brand Integration</h3>
+                        <p class="feature-description">
+                            Seamless integration of brand identity into physical spaces, creating memorable and authentic experiences.
+                        </p>
+                        <a href="#" class="feature-link">Learn more →</a>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- Portfolio/Gallery Section -->
+        <section class="section section-portfolio" id="portfolio">
+            <div class="container">
+                <header class="section-header">
+                    <h2 class="section-title">Featured Projects</h2>
+
+                    <div class="portfolio-filters">
+                        <button class="filter-btn active" data-filter="all">All Projects</button>
+                        <button class="filter-btn" data-filter="showroom">Showrooms</button>
+                        <button class="filter-btn" data-filter="service">Service Centers</button>
+                        <button class="filter-btn" data-filter="campus">Campuses</button>
+                    </div>
+                </header>
+
+                <div class="portfolio-grid">
+                    <!-- Large Featured Project -->
+                    <article class="portfolio-item featured" data-category="showroom">
+                        <div class="portfolio-image">
+                            <div class="image-placeholder"></div>
+                        </div>
+                        <div class="portfolio-content">
+                            <span class="label">Premium Showroom</span>
+                            <h3 class="portfolio-title">Luxury Automotive Flagship</h3>
+                            <p class="portfolio-excerpt">
+                                A 50,000 sq ft state-of-the-art showroom featuring sustainable design and immersive brand experiences.
+                            </p>
+                        </div>
+                    </article>
+
+                    <!-- Medium Project 1 -->
+                    <article class="portfolio-item medium" data-category="service">
+                        <div class="portfolio-image">
+                            <div class="image-placeholder"></div>
+                        </div>
+                        <div class="portfolio-content">
+                            <span class="label">Service Center</span>
+                            <h3 class="portfolio-title">Advanced Service Facility</h3>
+                        </div>
+                    </article>
+
+                    <!-- Medium Project 2 -->
+                    <article class="portfolio-item medium" data-category="showroom">
+                        <div class="portfolio-image">
+                            <div class="image-placeholder"></div>
+                        </div>
+                        <div class="portfolio-content">
+                            <span class="label">Boutique Showroom</span>
+                            <h3 class="portfolio-title">Urban Design Studio</h3>
+                        </div>
+                    </article>
+
+                    <!-- Small Project 1 -->
+                    <article class="portfolio-item small" data-category="campus">
+                        <div class="portfolio-image">
+                            <div class="image-placeholder"></div>
+                        </div>
+                        <div class="portfolio-content">
+                            <span class="label">Master Plan</span>
+                            <h3 class="portfolio-title">Corporate Campus</h3>
+                        </div>
+                    </article>
+
+                    <!-- Small Project 2 -->
+                    <article class="portfolio-item small" data-category="service">
+                        <div class="portfolio-image">
+                            <div class="image-placeholder"></div>
+                        </div>
+                        <div class="portfolio-content">
+                            <span class="label">Renovation</span>
+                            <h3 class="portfolio-title">Adaptive Reuse Project</h3>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="section section-cta">
+            <div class="container">
+                <div class="cta-content">
+                    <h2 class="cta-title">Ready to Transform Your Automotive Space?</h2>
+                    <p class="cta-description">
+                        Let's discuss how our expertise can bring your vision to life with precision and excellence.
+                    </p>
+                    <div class="cta-actions">
+                        <a href="#contact" class="btn btn-primary btn-large">Start Your Project</a>
+                        <a href="#portfolio" class="btn btn-secondary btn-large">View More Work</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Stats Section -->
+        <section class="section section-stats">
+            <div class="container">
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-number">250+</div>
+                        <div class="stat-label">Projects Completed</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">50M+</div>
+                        <div class="stat-label">Square Feet Designed</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">25</div>
+                        <div class="stat-label">Years Experience</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">98%</div>
+                        <div class="stat-label">Client Satisfaction</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer" id="contact">
+        <div class="container">
+            <div class="footer-grid">
+                <!-- Footer Column 1 - Branding -->
+                <div class="footer-column">
+                    <div class="footer-logo">
+                        <svg width="100" height="35" viewBox="0 0 120 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="0" y="0" width="30" height="30" fill="currentColor"/>
+                            <rect x="35" y="5" width="20" height="20" fill="currentColor"/>
+                            <rect x="60" y="0" width="30" height="30" fill="currentColor"/>
+                            <rect x="95" y="10" width="25" height="10" fill="currentColor"/>
+                        </svg>
+                    </div>
+                    <p class="footer-description">
+                        Precision-engineered design solutions for the automotive industry.
+                    </p>
+                </div>
+
+                <!-- Footer Column 2 - Navigation -->
+                <div class="footer-column">
+                    <h4 class="footer-heading">Navigation</h4>
+                    <ul class="footer-links">
+                        <li><a href="#about">About Us</a></li>
+                        <li><a href="#services">Services</a></li>
+                        <li><a href="#portfolio">Portfolio</a></li>
+                        <li><a href="#careers">Careers</a></li>
+                    </ul>
+                </div>
+
+                <!-- Footer Column 3 - Contact -->
+                <div class="footer-column">
+                    <h4 class="footer-heading">Contact</h4>
+                    <ul class="footer-links">
+                        <li><a href="mailto:info@example.com">info@automotive.design</a></li>
+                        <li><a href="tel:+15551234567">+1 (555) 123-4567</a></li>
+                        <li>123 Design Avenue<br>Toronto, ON M5H 2N2</li>
+                    </ul>
+                </div>
+
+                <!-- Footer Column 4 - Social -->
+                <div class="footer-column">
+                    <h4 class="footer-heading">Follow Us</h4>
+                    <div class="social-links">
+                        <a href="#" class="social-link" aria-label="LinkedIn">
+                            <span>LI</span>
+                        </a>
+                        <a href="#" class="social-link" aria-label="Twitter">
+                            <span>TW</span>
+                        </a>
+                        <a href="#" class="social-link" aria-label="Instagram">
+                            <span>IG</span>
+                        </a>
+                        <a href="#" class="social-link" aria-label="Facebook">
+                            <span>FB</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <div class="footer-legal">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                </div>
+                <div class="footer-copyright">
+                    &copy; 2025 Automotive Excellence. All rights reserved.
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -15,11 +15,8 @@ import {
   Package,
   TrendingUp,
   Code,
-  Users,
   AlertTriangle,
   ExternalLink,
-  CheckCircle,
-  XCircle,
 } from 'lucide-react';
 import { ScrollArea } from '@/components/ui/scroll-area';
 
@@ -239,42 +236,6 @@ export function IdeaDetailDialog({ idea, open, onOpenChange }: IdeaDetailDialogP
                   </div>
                 )}
               </div>
-
-              {idea.skillsRequeridos && idea.skillsRequeridos.length > 0 && (
-                <div>
-                  <p className="text-xs font-bold opacity-80 mb-2 flex items-center gap-1">
-                    <Users className="h-3 w-3" />
-                    SKILLS REQUERIDOS
-                  </p>
-                  <div className="space-y-2">
-                    {idea.skillsRequeridos.map((skill, idx) => (
-                      <div key={idx} className="bg-white/10 neo-border-sm border-white/20 p-3 flex items-center justify-between">
-                        <div className="flex items-center gap-3">
-                          {skill.tenemos ? (
-                            <CheckCircle className="h-4 w-4 text-green-300" />
-                          ) : (
-                            <XCircle className="h-4 w-4 text-red-300" />
-                          )}
-                          <div>
-                            <p className="font-bold text-sm">{skill.skill}</p>
-                            <p className="text-xs opacity-80">Nivel: {skill.nivelNecesario}</p>
-                          </div>
-                        </div>
-                        <Badge
-                          variant="outline"
-                          className={`border-2 ${
-                            skill.tenemos
-                              ? 'border-green-300 bg-green-300/20'
-                              : 'border-red-300 bg-red-300/20'
-                          }`}
-                        >
-                          {skill.tenemos ? 'Tenemos' : 'Falta'}
-                        </Badge>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
 
               {idea.bloqueadores && idea.bloqueadores.length > 0 && (
                 <div>

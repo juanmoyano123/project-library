@@ -5,10 +5,11 @@ import { useProjects } from '@/hooks/use-projects';
 import { ProjectGrid } from '@/components/projects/project-grid';
 import { NewProjectDialog } from '@/components/projects/new-project-dialog';
 import { IdeasSection } from '@/components/projects/ideas-section';
+import { ThemesSection } from '@/components/projects/themes-section';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Plus, Search, Sparkles, Rocket, Lightbulb, FolderKanban } from 'lucide-react';
+import { Plus, Search, Sparkles, Rocket, Lightbulb, FolderKanban, Palette } from 'lucide-react';
 import { Idea } from '@/lib/types';
 import { useRouter } from 'next/navigation';
 
@@ -177,6 +178,13 @@ ${idea.bloqueadores.map(b => `- ${b}`).join('\n')}` : ''}
                   <Lightbulb className="h-5 w-5 mr-2" />
                   Ideas
                 </TabsTrigger>
+                <TabsTrigger
+                  value="themes"
+                  className="data-[state=active]:bg-[hsl(280,100%,50%)] data-[state=active]:text-white data-[state=active]:neo-shadow-sm neo-border-sm font-black uppercase tracking-wide px-8 py-3"
+                >
+                  <Palette className="h-5 w-5 mr-2" />
+                  Themes
+                </TabsTrigger>
               </TabsList>
             </div>
 
@@ -215,6 +223,11 @@ ${idea.bloqueadores.map(b => `- ${b}`).join('\n')}` : ''}
             {/* IDEAS TAB */}
             <TabsContent value="ideas">
               <IdeasSection onCreateProject={handleCreateProjectFromIdea} />
+            </TabsContent>
+
+            {/* THEMES TAB */}
+            <TabsContent value="themes">
+              <ThemesSection />
             </TabsContent>
           </Tabs>
         </div>

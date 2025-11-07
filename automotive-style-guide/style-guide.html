@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Automotive Design System - Style Guide</title>
+    <link rel="stylesheet" href="mockups/styles.css">
+    <style>
+        .style-guide {
+            padding-top: 120px;
+            padding-bottom: 80px;
+        }
+        .style-section {
+            margin-bottom: 96px;
+            padding-bottom: 96px;
+            border-bottom: 1px solid #151f26;
+        }
+        .style-section:last-child {
+            border-bottom: none;
+        }
+        .color-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 24px;
+            margin: 32px 0;
+        }
+        .color-swatch {
+            border: 1px solid #151f26;
+            overflow: hidden;
+        }
+        .color-display {
+            height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 14px;
+        }
+        .color-info {
+            padding: 16px;
+            background-color: #fff;
+        }
+        .color-name {
+            font-weight: 700;
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+        .color-value {
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            color: #a2a2a2;
+        }
+        .type-sample {
+            margin: 24px 0;
+            padding: 24px;
+            background-color: #f9f9f9;
+            border: 1px solid #151f26;
+        }
+        .spacing-demo {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin: 16px 0;
+        }
+        .spacing-box {
+            background-color: #151f26;
+            color: #fff;
+            padding: 16px;
+            font-size: 12px;
+            font-weight: 700;
+            font-family: 'Courier New', monospace;
+        }
+        .component-preview {
+            padding: 48px;
+            background-color: #f9f9f9;
+            border: 1px solid #151f26;
+            margin: 32px 0;
+        }
+        .code-block {
+            background-color: #151f26;
+            color: #fff;
+            padding: 24px;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            line-height: 1.6;
+            margin: 24px 0;
+        }
+        .nav-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 32px;
+            border-bottom: 2px solid #151f26;
+        }
+        .nav-tab {
+            padding: 12px 24px;
+            font-family: 'SuisseIntlCond', sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            background: none;
+            border: none;
+            border-bottom: 3px solid transparent;
+            cursor: pointer;
+            color: #a2a2a2;
+            transition: all 0.2s;
+        }
+        .nav-tab.active {
+            color: #151f26;
+            border-bottom-color: #ff0000;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 24px 0;
+        }
+        th, td {
+            padding: 16px;
+            text-align: left;
+            border: 1px solid #151f26;
+        }
+        th {
+            background-color: #151f26;
+            color: #fff;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 14px;
+            letter-spacing: 0.5px;
+        }
+        td code {
+            font-family: 'Courier New', monospace;
+            background-color: #f5f5f5;
+            padding: 2px 6px;
+            border-radius: 2px;
+            font-size: 13px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Fixed Header -->
+    <header class="header" id="header">
+        <div class="header-inner">
+            <a href="#introduction" class="logo" aria-label="Return to top">
+                <svg width="120" height="40" viewBox="0 0 120 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="0" y="0" width="30" height="30" fill="currentColor"/>
+                    <rect x="35" y="5" width="20" height="20" fill="currentColor"/>
+                    <rect x="60" y="0" width="30" height="30" fill="currentColor"/>
+                    <rect x="95" y="10" width="25" height="10" fill="currentColor"/>
+                </svg>
+                <span class="visually-hidden">Style Guide</span>
+            </a>
+
+            <nav style="display: flex; gap: 32px; align-items: center;">
+                <a href="wireframes/index.html" style="font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">Wireframes</a>
+                <a href="mockups/index.html" style="font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">Mockups</a>
+                <a href="components/buttons.html" style="font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">Components</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Style Guide Content -->
+    <div class="style-guide">
+        <div class="container">
+            <!-- Introduction -->
+            <section id="introduction" class="style-section">
+                <span class="label">Documentation</span>
+                <h1>Automotive Design System</h1>
+                <p class="section-description">
+                    A precision-engineered design system inspired by the automotive industry.
+                    This guide documents all visual patterns, components, and implementation details
+                    for creating consistent, high-quality digital experiences.
+                </p>
+
+                <div class="nav-tabs">
+                    <button class="nav-tab active">Overview</button>
+                    <button class="nav-tab">Foundations</button>
+                    <button class="nav-tab">Components</button>
+                    <button class="nav-tab">Patterns</button>
+                </div>
+
+                <h3>Design Principles</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 32px; margin: 32px 0;">
+                    <div>
+                        <h4>Precision</h4>
+                        <p>Every element is carefully measured and aligned. Clean lines, exact spacing, and mathematical relationships create visual harmony.</p>
+                    </div>
+                    <div>
+                        <h4>Confidence</h4>
+                        <p>Bold typography and high-contrast design communicate strength and authority without unnecessary decoration.</p>
+                    </div>
+                    <div>
+                        <h4>Clarity</h4>
+                        <p>Information hierarchy is always clear. Users never question what to do next or where to find information.</p>
+                    </div>
+                    <div>
+                        <h4>Performance</h4>
+                        <p>Optimized for speed and efficiency. Smooth animations, fast loading, and responsive interactions.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Color System -->
+            <section id="colors" class="style-section">
+                <h2>Color System</h2>
+                <p>A monochromatic palette emphasizing contrast, sophistication, and technical excellence.</p>
+
+                <h3>Primary Colors</h3>
+                <div class="color-grid">
+                    <div class="color-swatch">
+                        <div class="color-display" style="background-color: #151f26; color: #fff;">
+                            Aa
+                        </div>
+                        <div class="color-info">
+                            <div class="color-name">Primary Dark</div>
+                            <div class="color-value">#151f26</div>
+                            <div class="color-value">rgb(21, 31, 38)</div>
+                        </div>
+                    </div>
+
+                    <div class="color-swatch">
+                        <div class="color-display" style="background-color: #ffffff; color: #151f26; border: 1px solid #151f26;">
+                            Aa
+                        </div>
+                        <div class="color-info">
+                            <div class="color-name">White</div>
+                            <div class="color-value">#ffffff</div>
+                            <div class="color-value">rgb(255, 255, 255)</div>
+                        </div>
+                    </div>
+
+                    <div class="color-swatch">
+                        <div class="color-display" style="background-color: #a2a2a2; color: #fff;">
+                            Aa
+                        </div>
+                        <div class="color-info">
+                            <div class="color-name">Gray</div>
+                            <div class="color-value">#a2a2a2</div>
+                            <div class="color-value">rgb(162, 162, 162)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <h3>Accent Colors</h3>
+                <div class="color-grid">
+                    <div class="color-swatch">
+                        <div class="color-display" style="background-color: #ff0000; color: #fff;">
+                            Aa
+                        </div>
+                        <div class="color-info">
+                            <div class="color-name">Accent Red</div>
+                            <div class="color-value">#ff0000</div>
+                            <div class="color-value">Used for CTAs, alerts, hover states</div>
+                        </div>
+                    </div>
+
+                    <div class="color-swatch">
+                        <div class="color-display" style="background-color: #1444f0; color: #fff;">
+                            Aa
+                        </div>
+                        <div class="color-info">
+                            <div class="color-name">Accent Blue</div>
+                            <div class="color-value">#1444f0</div>
+                            <div class="color-value">Links, secondary accents</div>
+                        </div>
+                    </div>
+                </div>
+
+                <h3>Usage Guidelines</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Color</th>
+                            <th>Usage</th>
+                            <th>Accessibility</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>#151f26</code></td>
+                            <td>Primary text, borders, backgrounds</td>
+                            <td>4.5:1 on white</td>
+                        </tr>
+                        <tr>
+                            <td><code>#ffffff</code></td>
+                            <td>Background, text on dark</td>
+                            <td>21:1 on #151f26</td>
+                        </tr>
+                        <tr>
+                            <td><code>#a2a2a2</code></td>
+                            <td>Secondary text, subtle borders</td>
+                            <td>3.2:1 on white (large text only)</td>
+                        </tr>
+                        <tr>
+                            <td><code>#ff0000</code></td>
+                            <td>Hover states, urgency, CTAs</td>
+                            <td>5.25:1 on white</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- Typography -->
+            <section id="typography" class="style-section">
+                <h2>Typography</h2>
+                <p>Two font families create a strong typographic hierarchy: ABCDiatype for readability and SuisseIntlCond for technical precision.</p>
+
+                <h3>Font Families</h3>
+                <div class="type-sample">
+                    <h1 style="font-family: 'ABCDiatype', sans-serif; margin-bottom: 16px;">
+                        ABCDiatype
+                    </h1>
+                    <p style="font-family: 'ABCDiatype', sans-serif; font-size: 18px; margin-bottom: 0;">
+                        Primary typeface for headings, body text, and all major content.
+                        Available in Regular (400) and Bold (700) weights.
+                    </p>
+                </div>
+
+                <div class="type-sample">
+                    <h2 style="font-family: 'SuisseIntlCond', sans-serif; margin-bottom: 16px;">
+                        SUISSEINTLCOND
+                    </h2>
+                    <p style="font-family: 'SuisseIntlCond', sans-serif; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0;">
+                        Condensed typeface for labels, buttons, and UI elements. Creates technical precision.
+                    </p>
+                </div>
+
+                <h3>Type Scale</h3>
+                <div class="type-sample">
+                    <h1>Heading 1 - 83.33px / 400</h1>
+                </div>
+                <div class="type-sample">
+                    <h2>Heading 2 - 48px / 700</h2>
+                </div>
+                <div class="type-sample">
+                    <h3>Heading 3 - 24px / 700</h3>
+                </div>
+                <div class="type-sample">
+                    <h4>Heading 4 - 18px / 700</h4>
+                </div>
+                <div class="type-sample">
+                    <p style="font-size: 30px; font-weight: 400; letter-spacing: -0.6px; margin: 0;">
+                        Body Large - 30px / 400 / -0.6px
+                    </p>
+                </div>
+                <div class="type-sample">
+                    <p style="font-size: 18px; font-weight: 400; margin: 0;">
+                        Body Default - 18px / 400
+                    </p>
+                </div>
+                <div class="type-sample">
+                    <p style="font-family: 'SuisseIntlCond', sans-serif; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px; margin: 0;">
+                        Label Text - 14px / UPPERCASE / 0.5px
+                    </p>
+                </div>
+
+                <h3>CSS Implementation</h3>
+                <div class="code-block">
+/* Typography Variables */
+--font-primary: 'ABCDiatype', -apple-system, system-ui, sans-serif;
+--font-condensed: 'SuisseIntlCond', -apple-system, system-ui, sans-serif;
+
+--text-xs: 12px;
+--text-sm: 14px;
+--text-base: 18px;
+--text-lg: 24px;
+--text-xl: 30px;
+--text-2xl: 48px;
+--text-3xl: 83.3333px;
+
+--weight-normal: 400;
+--weight-bold: 700;
+
+/* Heading Styles */
+h1 {
+    font-size: clamp(48px, 8vw, var(--text-3xl));
+    font-weight: var(--weight-normal);
+    letter-spacing: -3.33px;
+    line-height: 1;
+}
+
+h2 {
+    font-size: clamp(32px, 5vw, var(--text-2xl));
+    font-weight: var(--weight-bold);
+    letter-spacing: -1px;
+}
+                </div>
+            </section>
+
+            <!-- Spacing System -->
+            <section id="spacing" class="style-section">
+                <h2>Spacing System</h2>
+                <p>An 8px-based spacing scale creates consistent rhythm and alignment throughout the interface.</p>
+
+                <h3>Spacing Scale</h3>
+                <div style="margin: 32px 0;">
+                    <div class="spacing-demo">
+                        <div class="spacing-box" style="width: 8px;">xs</div>
+                        <span style="font-family: 'Courier New', monospace; font-size: 14px;">8px - --space-xs</span>
+                    </div>
+                    <div class="spacing-demo">
+                        <div class="spacing-box" style="width: 16px;">sm</div>
+                        <span style="font-family: 'Courier New', monospace; font-size: 14px;">16px - --space-sm</span>
+                    </div>
+                    <div class="spacing-demo">
+                        <div class="spacing-box" style="width: 24px;">md</div>
+                        <span style="font-family: 'Courier New', monospace; font-size: 14px;">24px - --space-md</span>
+                    </div>
+                    <div class="spacing-demo">
+                        <div class="spacing-box" style="width: 32px;">lg</div>
+                        <span style="font-family: 'Courier New', monospace; font-size: 14px;">32px - --space-lg</span>
+                    </div>
+                    <div class="spacing-demo">
+                        <div class="spacing-box" style="width: 48px;">xl</div>
+                        <span style="font-family: 'Courier New', monospace; font-size: 14px;">48px - --space-xl</span>
+                    </div>
+                    <div class="spacing-demo">
+                        <div class="spacing-box" style="width: 64px;">2xl</div>
+                        <span style="font-family: 'Courier New', monospace; font-size: 14px;">64px - --space-2xl</span>
+                    </div>
+                    <div class="spacing-demo">
+                        <div class="spacing-box" style="width: 96px;">3xl</div>
+                        <span style="font-family: 'Courier New', monospace; font-size: 14px;">96px - --space-3xl</span>
+                    </div>
+                </div>
+
+                <h3>Usage Guidelines</h3>
+                <ul style="line-height: 1.8;">
+                    <li><strong>xs (8px):</strong> Internal padding for small elements, icon gaps</li>
+                    <li><strong>sm (16px):</strong> Text spacing, button padding, card gutters</li>
+                    <li><strong>md (24px):</strong> Component spacing, section gaps</li>
+                    <li><strong>lg (32px):</strong> Large component padding, feature spacing</li>
+                    <li><strong>xl (48px):</strong> Section padding (mobile), major dividers</li>
+                    <li><strong>2xl (64px):</strong> Section padding (tablet), hero spacing</li>
+                    <li><strong>3xl (96px):</strong> Section padding (desktop), major sections</li>
+                </ul>
+            </section>
+
+            <!-- Grid System -->
+            <section id="grid" class="style-section">
+                <h2>Grid System</h2>
+                <p>A flexible grid system based on CSS Grid enables both symmetric and asymmetric layouts.</p>
+
+                <h3>Container</h3>
+                <div class="code-block">
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+    .container {
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+}
+                </div>
+
+                <h3>Grid Patterns</h3>
+                <div class="component-preview">
+                    <p style="margin-bottom: 16px; font-weight: 700;">Equal Columns (Features)</p>
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;">
+                        <div style="background-color: #151f26; color: #fff; padding: 32px; text-align: center;">1/3</div>
+                        <div style="background-color: #151f26; color: #fff; padding: 32px; text-align: center;">1/3</div>
+                        <div style="background-color: #151f26; color: #fff; padding: 32px; text-align: center;">1/3</div>
+                    </div>
+                </div>
+
+                <div class="component-preview">
+                    <p style="margin-bottom: 16px; font-weight: 700;">Asymmetric Grid (2/3 - 1/3)</p>
+                    <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 32px;">
+                        <div style="background-color: #151f26; color: #fff; padding: 32px; text-align: center;">2/3 Main Content</div>
+                        <div style="background-color: #a2a2a2; color: #fff; padding: 32px; text-align: center;">1/3 Sidebar</div>
+                    </div>
+                </div>
+
+                <div class="component-preview">
+                    <p style="margin-bottom: 16px; font-weight: 700;">Portfolio Grid (Masonry Style)</p>
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;">
+                        <div style="background-color: #151f26; color: #fff; padding: 48px; text-align: center; grid-column: span 2; grid-row: span 2;">Featured</div>
+                        <div style="background-color: #a2a2a2; color: #fff; padding: 32px; text-align: center;">Med</div>
+                        <div style="background-color: #a2a2a2; color: #fff; padding: 32px; text-align: center;">Med</div>
+                        <div style="background-color: #151f26; color: #fff; padding: 24px; text-align: center;">Small</div>
+                        <div style="background-color: #151f26; color: #fff; padding: 24px; text-align: center;">Small</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Components Overview -->
+            <section id="components" class="style-section">
+                <h2>Components</h2>
+                <p>Reusable component patterns with consistent styling and behavior.</p>
+
+                <h3>Available Components</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 24px; margin: 32px 0;">
+                    <a href="components/buttons.html" style="padding: 32px; border: 1px solid #151f26; transition: transform 0.3s;">
+                        <h4 style="margin-bottom: 8px;">Buttons</h4>
+                        <p style="color: #a2a2a2; font-size: 14px;">Primary, secondary, and size variants</p>
+                    </a>
+                    <a href="components/cards.html" style="padding: 32px; border: 1px solid #151f26; transition: transform 0.3s;">
+                        <h4 style="margin-bottom: 8px;">Cards</h4>
+                        <p style="color: #a2a2a2; font-size: 14px;">Feature, portfolio, and stat cards</p>
+                    </a>
+                    <a href="components/navigation.html" style="padding: 32px; border: 1px solid #151f26; transition: transform 0.3s;">
+                        <h4 style="margin-bottom: 8px;">Navigation</h4>
+                        <p style="color: #a2a2a2; font-size: 14px;">Header, menu, filters, and footer</p>
+                    </a>
+                </div>
+
+                <h3>Quick Reference</h3>
+                <div class="component-preview">
+                    <div style="display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 32px;">
+                        <button class="btn btn-primary">Primary Button</button>
+                        <button class="btn btn-secondary">Secondary Button</button>
+                        <button class="btn btn-primary btn-large">Large Button</button>
+                    </div>
+
+                    <span class="label">Category Label</span>
+
+                    <div style="margin-top: 32px;">
+                        <div class="portfolio-filters">
+                            <button class="filter-btn active">All</button>
+                            <button class="filter-btn">Category 1</button>
+                            <button class="filter-btn">Category 2</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Resources -->
+            <section id="resources" class="style-section">
+                <h2>Resources & Links</h2>
+                <p>Additional documentation and implementation files.</p>
+
+                <h3>Project Files</h3>
+                <ul style="line-height: 2;">
+                    <li><a href="wireframes/index.html" style="color: #1444f0;">Low-Fidelity Wireframes</a> - Layout structure and content hierarchy</li>
+                    <li><a href="mockups/index.html" style="color: #1444f0;">High-Fidelity Mockups</a> - Complete design with full styling</li>
+                    <li><a href="components/buttons.html" style="color: #1444f0;">Button Components</a> - All button variants and usage</li>
+                    <li><a href="components/cards.html" style="color: #1444f0;">Card Components</a> - Feature, portfolio, and stat cards</li>
+                    <li><a href="components/navigation.html" style="color: #1444f0;">Navigation Components</a> - Headers, menus, and filters</li>
+                    <li><a href="research/design-patterns-analysis.md" style="color: #1444f0;">Design Research</a> - GKC automotive analysis</li>
+                </ul>
+
+                <h3>CSS Files</h3>
+                <ul style="line-height: 2;">
+                    <li><code>wireframes/wireframes.css</code> - Low-fidelity wireframe styles</li>
+                    <li><code>mockups/styles.css</code> - Complete design system implementation</li>
+                    <li><code>mockups/script.js</code> - Vanilla JavaScript interactions</li>
+                </ul>
+
+                <h3>Implementation Notes</h3>
+                <div class="code-block">
+/* Quick Start: Include the CSS file */
+&lt;link rel="stylesheet" href="mockups/styles.css"&gt;
+
+/* Include JavaScript for interactions */
+&lt;script src="mockups/script.js"&gt;&lt;/script&gt;
+
+/* All CSS custom properties are available */
+:root {
+    --color-primary-dark: #151f26;
+    --color-white: #ffffff;
+    --color-gray: #a2a2a2;
+    --font-primary: 'ABCDiatype', sans-serif;
+    --font-condensed: 'SuisseIntlCond', sans-serif;
+    --space-md: 24px;
+    /* ... and more */
+}
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-column">
+                    <div class="footer-logo">
+                        <svg width="100" height="35" viewBox="0 0 120 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="0" y="0" width="30" height="30" fill="currentColor"/>
+                            <rect x="35" y="5" width="20" height="20" fill="currentColor"/>
+                            <rect x="60" y="0" width="30" height="30" fill="currentColor"/>
+                            <rect x="95" y="10" width="25" height="10" fill="currentColor"/>
+                        </svg>
+                    </div>
+                    <p class="footer-description">
+                        Automotive Design System - Precision-engineered style guide.
+                    </p>
+                </div>
+
+                <div class="footer-column">
+                    <h4 class="footer-heading">Documentation</h4>
+                    <ul class="footer-links">
+                        <li><a href="#introduction">Introduction</a></li>
+                        <li><a href="#colors">Colors</a></li>
+                        <li><a href="#typography">Typography</a></li>
+                        <li><a href="#components">Components</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h4 class="footer-heading">Examples</h4>
+                    <ul class="footer-links">
+                        <li><a href="wireframes/index.html">Wireframes</a></li>
+                        <li><a href="mockups/index.html">Mockups</a></li>
+                        <li><a href="components/buttons.html">Components</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h4 class="footer-heading">Built With</h4>
+                    <ul class="footer-links">
+                        <li>Pure HTML5</li>
+                        <li>CSS3 (No Frameworks)</li>
+                        <li>Vanilla JavaScript</li>
+                        <li>Inspired by GKC</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <div class="footer-legal">
+                    <span>Style Guide Documentation</span>
+                </div>
+                <div class="footer-copyright">
+                    &copy; 2025 Automotive Design System
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

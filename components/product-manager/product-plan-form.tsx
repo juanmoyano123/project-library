@@ -24,10 +24,10 @@ export function ProductPlanForm({ projectId, onPlanGenerated, onCancel }: Produc
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    fetchGoValidations();
+    fetchApprovedValidations();
   }, [projectId]);
 
-  const fetchGoValidations = async () => {
+  const fetchApprovedValidations = async () => {
     setFetchingValidations(true);
     setError(null);
 
@@ -39,9 +39,10 @@ export function ProductPlanForm({ projectId, onPlanGenerated, onCancel }: Produc
       }
 
       const allValidations = await response.json();
-      // Filtrar solo validaciones con veredicto GO y estado APPROVED
+      // Filtrar solo validaciones con estado APPROVED (cualquier veredicto)
+      // Si un PM aprobó una validación 'validate_more', puede querer generar PRD igual
       const approvedValidations = allValidations.filter(
-        (v: Validation) => v.verdict === 'go' && v.status === 'approved'
+        (v: Validation) => v.status === 'approved'
       );
       setValidations(approvedValidations);
 
@@ -130,7 +131,7 @@ export function ProductPlanForm({ projectId, onPlanGenerated, onCancel }: Produc
           {/* Validation Selector */}
           <div className="space-y-2">
             <label htmlFor="validation" className="text-sm font-medium">
-              Seleccionar Validación GO
+              Seleccionar Validación Aprobada
             </label>
             <Select
               value={selectedValidation?.id || ''}
@@ -138,7 +139,7 @@ export function ProductPlanForm({ projectId, onPlanGenerated, onCancel }: Produc
               disabled={loading || validations.length === 0}
             >
               <SelectTrigger id="validation">
-                <SelectValue placeholder="Elige una validación exitosa..." />
+                <SelectValue placeholder="Elige una validación aprobada..." />
               </SelectTrigger>
               <SelectContent>
                 {validations.map((validation) => (
@@ -153,7 +154,7 @@ export function ProductPlanForm({ projectId, onPlanGenerated, onCancel }: Produc
             </Select>
             {validations.length > 0 && (
               <p className="text-xs text-muted-foreground">
-                {validations.length} validación{validations.length !== 1 ? 'es' : ''} GO disponible{validations.length !== 1 ? 's' : ''}
+                {validations.length} validación{validations.length !== 1 ? 'es' : ''} aprobada{validations.length !== 1 ? 's' : ''} disponible{validations.length !== 1 ? 's' : ''}
               </p>
             )}
           </div>
@@ -165,9 +166,16 @@ export function ProductPlanForm({ projectId, onPlanGenerated, onCancel }: Produc
                 <div className="flex-1">
                   <p className="text-sm font-semibold mb-1">{selectedValidation.rawIdea}</p>
                   <div className="flex items-center gap-2 flex-wrap">
-                    <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200">
+                    <Badge
+                      variant="outline"
+                      className={
+                        selectedValidation.verdict === 'go'
+                          ? "bg-green-50 text-green-700 border-green-200"
+                          : "bg-yellow-50 text-yellow-700 border-yellow-200"
+                      }
+                    >
                       <CheckCircle2 className="h-3 w-3 mr-1" />
-                      GO
+                      {selectedValidation.verdict === 'go' ? 'GO' : 'VALIDATE MORE'}
                     </Badge>
                     <Badge variant="outline">
                       <MapPin className="h-3 w-3 mr-1" />

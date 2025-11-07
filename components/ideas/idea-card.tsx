@@ -9,7 +9,7 @@ import {
   Clock,
   Zap,
   Package,
-  TrendingUp,
+  Plug,
   Eye,
   Trash2,
 } from 'lucide-react';
@@ -109,13 +109,17 @@ export function IdeaCard({ idea, onView, onDelete }: IdeaCardProps) {
           <p className="text-sm line-clamp-2">{idea.solucion}</p>
         </div>
 
-        {/* Mercado */}
+        {/* Integraciones */}
         <div>
           <p className="text-xs font-bold text-gray-500 mb-1 flex items-center gap-1">
-            <TrendingUp className="h-3 w-3" />
-            MERCADO
+            <Plug className="h-3 w-3" />
+            INTEGRACIONES
           </p>
-          <p className="text-xs text-gray-600 line-clamp-1">{idea.mercadoObjetivo}</p>
+          <p className="text-sm line-clamp-2">
+            {idea.integracionesNecesarias && idea.integracionesNecesarias.length > 0
+              ? idea.integracionesNecesarias.map(i => i.nombre).join(', ')
+              : 'Sin integraciones definidas'}
+          </p>
         </div>
 
         {/* Tiempo Estimado */}

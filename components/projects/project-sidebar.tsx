@@ -4,6 +4,7 @@ import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { FileText, Calendar, Layers, Wrench, Sparkles, ClipboardList, Kanban } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { ThemeSelector } from './theme-selector';
 
 type ViewType = 'prompts' | 'tools' | 'validator' | 'prd' | 'features';
 
@@ -12,9 +13,11 @@ interface ProjectSidebarProps {
   onViewChange: (view: ViewType) => void;
   promptCount?: number;
   projectName: string;
+  themeId?: string;
+  onThemeChange?: (themeId: string | undefined) => void;
 }
 
-export function ProjectSidebar({ activeView, onViewChange, promptCount = 0, projectName }: ProjectSidebarProps) {
+export function ProjectSidebar({ activeView, onViewChange, promptCount = 0, projectName, themeId, onThemeChange }: ProjectSidebarProps) {
   const menuItems = [
     {
       id: 'prompts' as ViewType,
@@ -118,12 +121,12 @@ export function ProjectSidebar({ activeView, onViewChange, promptCount = 0, proj
           })}
         </nav>
 
-        {/* Future components placeholder */}
-        <div className="pt-4 border-t-2 border-black">
-          <p className="text-xs text-black text-center font-bold uppercase tracking-wide">
-            Más componentes próximamente
-          </p>
-        </div>
+        {/* Theme Selector */}
+        {onThemeChange && (
+          <div className="pt-4 border-t-2 border-black">
+            <ThemeSelector value={themeId} onChange={onThemeChange} />
+          </div>
+        )}
       </div>
     </Card>
   );

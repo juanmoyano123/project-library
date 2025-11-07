@@ -175,9 +175,10 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    if (validation.verdict !== 'go') {
+    // Validar que la validación esté aprobada por el PM
+    if (validation.status !== 'approved') {
       return NextResponse.json(
-        { error: 'Only GO validations can generate PRDs' },
+        { error: 'Validation must be approved before generating PRD' },
         { status: 400 }
       );
     }

@@ -8,7 +8,10 @@ import { KanbanBoard } from './kanban-board';
 import { GanttView } from './gantt-view';
 import { FeaturesList } from './features-list';
 import { FeatureDetailModal } from './feature-detail-modal';
-import { Kanban, Calendar, List, RefreshCw } from 'lucide-react';
+import { MetricsGrid } from '../charts/metrics-grid';
+import { FeatureFiltersPanel, applyFeatureFilters, FeatureFilters } from './feature-filters';
+import { exportDashboardToPDF, exportMetricsToPDF } from '@/lib/export-pdf';
+import { Kanban, Calendar, List, RefreshCw, BarChart3, Download } from 'lucide-react';
 
 interface FeaturesDashboardProps {
   projectId: string;
@@ -20,6 +23,7 @@ export function FeaturesDashboard({ projectId, planId }: FeaturesDashboardProps)
   const [loading, setLoading] = useState(true);
   const [selectedFeature, setSelectedFeature] = useState<Feature | null>(null);
   const [activeTab, setActiveTab] = useState('kanban');
+  const [filters, setFilters] = useState<FeatureFilters>({});
 
   const fetchFeatures = async () => {
     setLoading(true);
@@ -87,6 +91,26 @@ export function FeaturesDashboard({ projectId, planId }: FeaturesDashboardProps)
     setSelectedFeature(feature);
   };
 
+  const handleFiltersChange = (newFilters: FeatureFilters) => {
+    setFilters(newFilters);
+  };
+
+  const handleExportPDF = async () => {
+    try {
+      if (activeTab === 'metrics') {
+        await exportMetricsToPDF(projectId);
+      } else {
+        await exportDashboardToPDF(projectId, activeTab);
+      }
+    } catch (error) {
+      console.error('Error exporting PDF:', error);
+      alert('Error al exportar a PDF');
+    }
+  };
+
+  // Apply filters to features
+  const filteredFeatures = applyFeatureFilters(features, filters);
+
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-[400px]">
@@ -114,8 +138,15 @@ export function FeaturesDashboard({ projectId, planId }: FeaturesDashboardProps)
 
   return (
     <>
-      <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-        <div className="flex items-center justify-between">
+      <div className="space-y-6">
+        {/* Filters Panel */}
+        <FeatureFiltersPanel
+          onFiltersChange={handleFiltersChange}
+          features={features}
+        />
+
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
+          <div className="flex items-center justify-between">
           <TabsList className="neo-border bg-white p-1 gap-1">
             <TabsTrigger
               value="kanban"
@@ -138,34 +169,56 @@ export function FeaturesDashboard({ projectId, planId }: FeaturesDashboardProps)
               <List className="h-4 w-4 mr-2" />
               Lista
             </TabsTrigger>
+            <TabsTrigger
+              value="metrics"
+              className="data-[state=active]:bg-[hsl(0,100%,60%)] data-[state=active]:text-white font-black uppercase text-sm neo-border-sm"
+            >
+              <BarChart3 className="h-4 w-4 mr-2" />
+              Métricas
+            </TabsTrigger>
           </TabsList>
 
-          <Button
-            onClick={fetchFeatures}
-            variant="outline"
-            className="neo-border font-black uppercase text-sm"
-          >
-            <RefreshCw className="h-4 w-4 mr-2" />
-            Actualizar
-          </Button>
+          <div className="flex gap-2">
+            <Button
+              onClick={handleExportPDF}
+              variant="outline"
+              className="neo-border font-black uppercase text-sm"
+            >
+              <Download className="h-4 w-4 mr-2" />
+              Exportar PDF
+            </Button>
+            <Button
+              onClick={fetchFeatures}
+              variant="outline"
+              className="neo-border font-black uppercase text-sm"
+            >
+              <RefreshCw className="h-4 w-4 mr-2" />
+              Actualizar
+            </Button>
+          </div>
         </div>
 
-        <TabsContent value="kanban" className="m-0">
-          <KanbanBoard
-            features={features}
-            onFeatureClick={handleFeatureClick}
-            onStatusChange={handleStatusChange}
-          />
-        </TabsContent>
+          <TabsContent value="kanban" className="m-0" data-export-pdf>
+            <KanbanBoard
+              features={filteredFeatures}
+              onFeatureClick={handleFeatureClick}
+              onStatusChange={handleStatusChange}
+            />
+          </TabsContent>
 
-        <TabsContent value="gantt" className="m-0">
-          <GanttView features={features} onFeatureClick={handleFeatureClick} />
-        </TabsContent>
+          <TabsContent value="gantt" className="m-0" data-export-pdf>
+            <GanttView features={filteredFeatures} onFeatureClick={handleFeatureClick} />
+          </TabsContent>
 
-        <TabsContent value="list" className="m-0">
-          <FeaturesList features={features} onFeatureClick={handleFeatureClick} />
-        </TabsContent>
-      </Tabs>
+          <TabsContent value="list" className="m-0" data-export-pdf>
+            <FeaturesList features={filteredFeatures} onFeatureClick={handleFeatureClick} />
+          </TabsContent>
+
+          <TabsContent value="metrics" className="m-0" data-export-pdf>
+            <MetricsGrid features={filteredFeatures} />
+          </TabsContent>
+        </Tabs>
+      </div>
 
       <FeatureDetailModal
         feature={selectedFeature}

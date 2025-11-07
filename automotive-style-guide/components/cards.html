@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cards - Component Library</title>
+    <link rel="stylesheet" href="../mockups/styles.css">
+    <style>
+        .component-page {
+            padding: 80px 0;
+        }
+        .component-section {
+            margin-bottom: 64px;
+        }
+        .component-demo {
+            padding: 48px;
+            background-color: #f9f9f9;
+            border: 1px solid #151f26;
+            margin-bottom: 32px;
+        }
+        .component-code {
+            background-color: #151f26;
+            color: #ffffff;
+            padding: 24px;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        .demo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 32px;
+        }
+    </style>
+</head>
+<body>
+    <div class="component-page">
+        <div class="container">
+            <h1>Card Components</h1>
+            <p class="section-description">
+                Card patterns for displaying content in the automotive design system.
+            </p>
+
+            <!-- Feature Cards -->
+            <section class="component-section">
+                <h2>Feature Cards</h2>
+                <p>Cards for showcasing services, capabilities, or features with icons and descriptions.</p>
+
+                <div class="component-demo">
+                    <div class="demo-grid">
+                        <article class="feature-card">
+                            <div class="feature-icon">
+                                <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <rect x="8" y="8" width="32" height="32" stroke="currentColor" stroke-width="2"/>
+                                    <rect x="14" y="14" width="20" height="20" fill="currentColor"/>
+                                </svg>
+                            </div>
+                            <h3 class="feature-title">Feature Title</h3>
+                            <p class="feature-description">
+                                A comprehensive description of the feature or service being offered to clients.
+                            </p>
+                            <a href="#" class="feature-link">Learn more →</a>
+                        </article>
+
+                        <article class="feature-card">
+                            <div class="feature-icon">
+                                <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <circle cx="24" cy="24" r="16" stroke="currentColor" stroke-width="2"/>
+                                    <circle cx="24" cy="24" r="8" fill="currentColor"/>
+                                </svg>
+                            </div>
+                            <h3 class="feature-title">Another Feature</h3>
+                            <p class="feature-description">
+                                Secondary feature card demonstrating consistency in design patterns.
+                            </p>
+                            <a href="#" class="feature-link">Learn more →</a>
+                        </article>
+                    </div>
+                </div>
+
+                <div class="component-code">
+&lt;article class="feature-card"&gt;
+    &lt;div class="feature-icon"&gt;
+        &lt;!-- SVG icon here --&gt;
+    &lt;/div&gt;
+    &lt;h3 class="feature-title"&gt;Feature Title&lt;/h3&gt;
+    &lt;p class="feature-description"&gt;
+        Description of the feature or service.
+    &lt;/p&gt;
+    &lt;a href="#" class="feature-link"&gt;Learn more →&lt;/a&gt;
+&lt;/article&gt;
+                </div>
+            </section>
+
+            <!-- Portfolio Cards -->
+            <section class="component-section">
+                <h2>Portfolio Cards</h2>
+                <p>Project showcase cards with images and metadata.</p>
+
+                <div class="component-demo">
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px;">
+                        <!-- Standard Portfolio Card -->
+                        <article class="portfolio-item small">
+                            <div class="portfolio-image">
+                                <div class="image-placeholder"></div>
+                            </div>
+                            <div class="portfolio-content">
+                                <span class="label">Category</span>
+                                <h3 class="portfolio-title">Project Title</h3>
+                            </div>
+                        </article>
+
+                        <!-- With Excerpt -->
+                        <article class="portfolio-item small">
+                            <div class="portfolio-image">
+                                <div class="image-placeholder"></div>
+                            </div>
+                            <div class="portfolio-content">
+                                <span class="label">Premium Project</span>
+                                <h3 class="portfolio-title">Featured Project</h3>
+                                <p class="portfolio-excerpt">
+                                    Brief description of the project highlights.
+                                </p>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+
+                <div class="component-code">
+&lt;!-- Standard Portfolio Card --&gt;
+&lt;article class="portfolio-item small"&gt;
+    &lt;div class="portfolio-image"&gt;
+        &lt;div class="image-placeholder"&gt;&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class="portfolio-content"&gt;
+        &lt;span class="label"&gt;Category&lt;/span&gt;
+        &lt;h3 class="portfolio-title"&gt;Project Title&lt;/h3&gt;
+    &lt;/div&gt;
+&lt;/article&gt;
+
+&lt;!-- With Excerpt --&gt;
+&lt;article class="portfolio-item small"&gt;
+    &lt;div class="portfolio-image"&gt;
+        &lt;div class="image-placeholder"&gt;&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class="portfolio-content"&gt;
+        &lt;span class="label"&gt;Premium Project&lt;/span&gt;
+        &lt;h3 class="portfolio-title"&gt;Featured Project&lt;/h3&gt;
+        &lt;p class="portfolio-excerpt"&gt;
+            Brief description of the project.
+        &lt;/p&gt;
+    &lt;/div&gt;
+&lt;/article&gt;
+                </div>
+            </section>
+
+            <!-- Card Sizes -->
+            <section class="component-section">
+                <h2>Card Size Variants</h2>
+                <p>Portfolio cards come in multiple sizes for asymmetric grid layouts.</p>
+
+                <div class="component-demo">
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;">
+                        <!-- Small Card -->
+                        <article class="portfolio-item small" style="grid-column: span 1;">
+                            <div class="portfolio-image">
+                                <div class="image-placeholder"></div>
+                            </div>
+                            <div class="portfolio-content">
+                                <span class="label">Small</span>
+                                <h3 class="portfolio-title">Small Card</h3>
+                            </div>
+                        </article>
+
+                        <!-- Medium Card -->
+                        <article class="portfolio-item medium" style="grid-column: span 1;">
+                            <div class="portfolio-image">
+                                <div class="image-placeholder"></div>
+                            </div>
+                            <div class="portfolio-content">
+                                <span class="label">Medium</span>
+                                <h3 class="portfolio-title">Medium Card</h3>
+                            </div>
+                        </article>
+
+                        <!-- Small Card -->
+                        <article class="portfolio-item small" style="grid-column: span 1;">
+                            <div class="portfolio-image">
+                                <div class="image-placeholder"></div>
+                            </div>
+                            <div class="portfolio-content">
+                                <span class="label">Small</span>
+                                <h3 class="portfolio-title">Small Card</h3>
+                            </div>
+                        </article>
+
+                        <!-- Featured/Large Card -->
+                        <article class="portfolio-item featured" style="grid-column: span 3;">
+                            <div class="portfolio-image">
+                                <div class="image-placeholder"></div>
+                            </div>
+                            <div class="portfolio-content">
+                                <span class="label">Featured</span>
+                                <h3 class="portfolio-title">Featured Large Card</h3>
+                                <p class="portfolio-excerpt">
+                                    Featured cards span multiple columns and include more detailed descriptions.
+                                </p>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+
+                <div class="component-code">
+&lt;!-- Grid Layout with Different Sizes --&gt;
+&lt;div class="portfolio-grid"&gt;
+    &lt;!-- Small Card: grid-column: span 1 --&gt;
+    &lt;article class="portfolio-item small"&gt;...&lt;/article&gt;
+
+    &lt;!-- Medium Card: grid-column: span 1 --&gt;
+    &lt;article class="portfolio-item medium"&gt;...&lt;/article&gt;
+
+    &lt;!-- Featured Card: grid-column: span 2, grid-row: span 2 --&gt;
+    &lt;article class="portfolio-item featured"&gt;...&lt;/article&gt;
+&lt;/div&gt;
+                </div>
+            </section>
+
+            <!-- Stat Cards -->
+            <section class="component-section">
+                <h2>Stat Cards</h2>
+                <p>Display key metrics and statistics in a bold, impactful way.</p>
+
+                <div class="component-demo" style="background-color: #151f26;">
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 32px;">
+                        <div class="stat-item">
+                            <div class="stat-number">250+</div>
+                            <div class="stat-label">Projects Completed</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">50M+</div>
+                            <div class="stat-label">Square Feet</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">25</div>
+                            <div class="stat-label">Years Experience</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">98%</div>
+                            <div class="stat-label">Satisfaction</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="component-code">
+&lt;div class="stat-item"&gt;
+    &lt;div class="stat-number"&gt;250+&lt;/div&gt;
+    &lt;div class="stat-label"&gt;Projects Completed&lt;/div&gt;
+&lt;/div&gt;
+                </div>
+            </section>
+
+            <!-- Design Guidelines -->
+            <section class="component-section">
+                <h2>Card Design Guidelines</h2>
+                <ul style="line-height: 1.8; color: #151f26;">
+                    <li><strong>Border:</strong> All cards use 1px solid border (#151f26)</li>
+                    <li><strong>Padding:</strong> Standard padding is 32px for card content</li>
+                    <li><strong>Hover effects:</strong> Cards translate up 4-8px on hover with subtle shadow</li>
+                    <li><strong>Images:</strong> Use consistent aspect ratios (4:3 or 1:1)</li>
+                    <li><strong>Labels:</strong> Always include category labels in uppercase</li>
+                    <li><strong>Spacing:</strong> 24px gap between cards in grids</li>
+                    <li><strong>Background:</strong> White background on light pages, varies on dark sections</li>
+                </ul>
+            </section>
+
+            <!-- CSS Reference -->
+            <section class="component-section">
+                <h2>CSS Variables Reference</h2>
+                <div class="component-code">
+/* Card Variables */
+--space-lg: 32px;
+--space-xl: 48px;
+--transition-base: 0.3s cubic-bezier(0.38, 0.005, 0.215, 1);
+
+/* Feature Card */
+.feature-card {
+    padding: var(--space-xl);
+    background-color: var(--bg-primary);
+    border: 1px solid var(--color-primary-dark);
+    transition: transform var(--transition-base);
+}
+
+.feature-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 24px rgba(21, 31, 38, 0.1);
+}
+
+/* Portfolio Card */
+.portfolio-item {
+    border: 1px solid var(--color-primary-dark);
+    background-color: var(--bg-primary);
+    transition: transform var(--transition-base);
+}
+
+.portfolio-content {
+    padding: var(--space-lg);
+}
+                </div>
+            </section>
+        </div>
+    </div>
+</body>
+</html>

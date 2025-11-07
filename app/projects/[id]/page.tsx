@@ -29,7 +29,7 @@ type ViewType = 'prompts' | 'tools' | 'validator' | 'prd' | 'features';
 
 export default function ProjectDetailPage({ params }: PageProps) {
   const { id } = use(params);
-  const { project, loading, addPrompt, deletePrompt, updateProjectStage, updatePromptNotes } = useProject(id);
+  const { project, loading, addPrompt, deletePrompt, updateProjectStage, updatePromptNotes, updateProject } = useProject(id);
   const [activeView, setActiveView] = useState<ViewType>('prompts');
   const [showWorkflow, setShowWorkflow] = useState(false);
   const [showValidationForm, setShowValidationForm] = useState(true);
@@ -90,6 +90,12 @@ export default function ProjectDetailPage({ params }: PageProps) {
     setActiveView('prd');
   };
 
+  const handleThemeChange = async (themeId: string | undefined) => {
+    if (project && updateProject) {
+      await updateProject(project.id, { themeId });
+    }
+  };
+
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
@@ -121,21 +127,31 @@ export default function ProjectDetailPage({ params }: PageProps) {
       <div className="border-b-4 border-black bg-white sticky top-0 z-10 neo-shadow">
         <div className="container mx-auto px-6 py-6">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-4 flex-1">
               <Link href="/projects">
                 <Button className="bg-white hover:bg-[hsl(0,0%,95%)] text-black border-4 border-black neo-shadow-sm font-black uppercase tracking-wide transition-all hover:translate-x-[-2px] hover:translate-y-[-2px]">
                   <ArrowLeft className="h-4 w-4 mr-2" />
                   Volver
                 </Button>
               </Link>
-              <div>
+              <div className="flex-1">
                 <h1 className="text-4xl font-black text-black uppercase tracking-tight">{project.name}</h1>
-                <p className="text-base text-black font-bold mt-2 bg-[hsl(60,100%,50%)] inline-block px-3 py-1 neo-border-sm">{project.description}</p>
               </div>
             </div>
           </div>
         </div>
       </div>
+
+      {/* Banner amarillo con descripción */}
+      {project.description && (
+        <div className="border-b-4 border-black bg-[hsl(60,100%,50%)]">
+          <div className="container mx-auto px-6 py-4">
+            <p className="text-black font-bold text-base leading-relaxed">
+              {project.description}
+            </p>
+          </div>
+        </div>
+      )}
 
       {/* Main Layout */}
       <div className="container mx-auto px-6 py-6">
@@ -147,6 +163,8 @@ export default function ProjectDetailPage({ params }: PageProps) {
               onViewChange={setActiveView}
               promptCount={project.prompts.length}
               projectName={project.name}
+              themeId={project.themeId}
+              onThemeChange={handleThemeChange}
             />
           </aside>
 

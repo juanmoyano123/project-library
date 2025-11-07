@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Navigation - Component Library</title>
+    <link rel="stylesheet" href="../mockups/styles.css">
+    <style>
+        .component-page {
+            padding: 80px 0;
+        }
+        .component-section {
+            margin-bottom: 64px;
+        }
+        .component-demo {
+            padding: 48px;
+            background-color: #f9f9f9;
+            border: 1px solid #151f26;
+            margin-bottom: 32px;
+            position: relative;
+        }
+        .component-code {
+            background-color: #151f26;
+            color: #ffffff;
+            padding: 24px;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        .static-demo {
+            position: relative;
+            background-color: #fff;
+            border: 1px solid #151f26;
+        }
+    </style>
+</head>
+<body>
+    <div class="component-page">
+        <div class="container">
+            <h1>Navigation Components</h1>
+            <p class="section-description">
+                Navigation patterns for the automotive design system including headers, menus, and filters.
+            </p>
+
+            <!-- Header Navigation -->
+            <section class="component-section">
+                <h2>Fixed Header</h2>
+                <p>Main site header with logo and menu toggle. Fixed position with scroll behavior.</p>
+
+                <div class="component-demo static-demo">
+                    <header class="header" style="position: relative;">
+                        <div class="header-inner">
+                            <a href="#" class="logo" aria-label="Return to homepage">
+                                <svg width="120" height="40" viewBox="0 0 120 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <rect x="0" y="0" width="30" height="30" fill="currentColor"/>
+                                    <rect x="35" y="5" width="20" height="20" fill="currentColor"/>
+                                    <rect x="60" y="0" width="30" height="30" fill="currentColor"/>
+                                    <rect x="95" y="10" width="25" height="10" fill="currentColor"/>
+                                </svg>
+                            </a>
+
+                            <button class="menu-toggle" aria-expanded="false" aria-label="Open navigation menu">
+                                <span class="menu-toggle-inner">
+                                    <span class="menu-label">Menu</span>
+                                    <span class="menu-icon">
+                                        <span class="menu-line"></span>
+                                        <span class="menu-line"></span>
+                                        <span class="menu-line"></span>
+                                    </span>
+                                </span>
+                            </button>
+                        </div>
+                    </header>
+                </div>
+
+                <div class="component-code">
+&lt;header class="header" id="header"&gt;
+    &lt;div class="header-inner"&gt;
+        &lt;a href="#" class="logo" aria-label="Return to homepage"&gt;
+            &lt;svg&gt;...&lt;/svg&gt;
+            &lt;span class="visually-hidden"&gt;Company Name&lt;/span&gt;
+        &lt;/a&gt;
+
+        &lt;button class="menu-toggle" id="menuToggle"
+                aria-expanded="false"
+                aria-label="Open navigation menu"&gt;
+            &lt;span class="menu-toggle-inner"&gt;
+                &lt;span class="menu-label"&gt;Menu&lt;/span&gt;
+                &lt;span class="menu-icon"&gt;
+                    &lt;span class="menu-line"&gt;&lt;/span&gt;
+                    &lt;span class="menu-line"&gt;&lt;/span&gt;
+                    &lt;span class="menu-line"&gt;&lt;/span&gt;
+                &lt;/span&gt;
+            &lt;/span&gt;
+        &lt;/button&gt;
+    &lt;/div&gt;
+&lt;/header&gt;
+                </div>
+            </section>
+
+            <!-- Menu Toggle States -->
+            <section class="component-section">
+                <h2>Menu Toggle Button</h2>
+                <p>Hamburger menu button with label and animated states.</p>
+
+                <div class="component-demo">
+                    <div style="display: flex; gap: 48px; align-items: center;">
+                        <!-- Default State -->
+                        <div style="text-align: center;">
+                            <p style="margin-bottom: 16px; font-size: 12px; text-transform: uppercase; color: #a2a2a2;">Default</p>
+                            <button class="menu-toggle">
+                                <span class="menu-toggle-inner">
+                                    <span class="menu-label">Menu</span>
+                                    <span class="menu-icon">
+                                        <span class="menu-line"></span>
+                                        <span class="menu-line"></span>
+                                        <span class="menu-line"></span>
+                                    </span>
+                                </span>
+                            </button>
+                        </div>
+
+                        <!-- Close State -->
+                        <div style="text-align: center;">
+                            <p style="margin-bottom: 16px; font-size: 12px; text-transform: uppercase; color: #a2a2a2;">Close State</p>
+                            <button class="menu-close">
+                                <span class="menu-label">Close</span>
+                                <span class="menu-icon close">
+                                    <span class="menu-line"></span>
+                                    <span class="menu-line"></span>
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="component-code">
+&lt;!-- Menu Toggle --&gt;
+&lt;button class="menu-toggle"&gt;
+    &lt;span class="menu-toggle-inner"&gt;
+        &lt;span class="menu-label"&gt;Menu&lt;/span&gt;
+        &lt;span class="menu-icon"&gt;
+            &lt;span class="menu-line"&gt;&lt;/span&gt;
+            &lt;span class="menu-line"&gt;&lt;/span&gt;
+            &lt;span class="menu-line"&gt;&lt;/span&gt;
+        &lt;/span&gt;
+    &lt;/span&gt;
+&lt;/button&gt;
+
+&lt;!-- Menu Close --&gt;
+&lt;button class="menu-close"&gt;
+    &lt;span class="menu-label"&gt;Close&lt;/span&gt;
+    &lt;span class="menu-icon close"&gt;
+        &lt;span class="menu-line"&gt;&lt;/span&gt;
+        &lt;span class="menu-line"&gt;&lt;/span&gt;
+    &lt;/span&gt;
+&lt;/button&gt;
+                </div>
+            </section>
+
+            <!-- Full Screen Menu -->
+            <section class="component-section">
+                <h2>Full-Screen Navigation Menu</h2>
+                <p>Overlay menu with large typography and animated entry.</p>
+
+                <div class="component-demo" style="background-color: #151f26; min-height: 400px;">
+                    <div style="padding: 40px 0;">
+                        <button class="menu-close" style="margin-bottom: 64px;">
+                            <span class="menu-label">Close</span>
+                            <span class="menu-icon close">
+                                <span class="menu-line"></span>
+                                <span class="menu-line"></span>
+                            </span>
+                        </button>
+
+                        <ul class="nav-menu-list" style="position: relative;">
+                            <li class="nav-menu-item" style="--item-index: 0; opacity: 1; transform: translateY(0);">
+                                <a href="#" class="nav-menu-link">About Us</a>
+                            </li>
+                            <li class="nav-menu-item" style="--item-index: 1; opacity: 1; transform: translateY(0);">
+                                <a href="#" class="nav-menu-link">Services</a>
+                            </li>
+                            <li class="nav-menu-item" style="--item-index: 2; opacity: 1; transform: translateY(0);">
+                                <a href="#" class="nav-menu-link">Portfolio</a>
+                            </li>
+                            <li class="nav-menu-item" style="--item-index: 3; opacity: 1; transform: translateY(0);">
+                                <a href="#" class="nav-menu-link">Contact</a>
+                            </li>
+                        </ul>
+
+                        <div class="nav-menu-footer">
+                            <a href="#" class="btn btn-primary btn-large">Get Started</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="component-code">
+&lt;nav class="nav-menu" id="navMenu"&gt;
+    &lt;div class="nav-menu-inner"&gt;
+        &lt;button class="menu-close" id="menuClose"&gt;...&lt;/button&gt;
+
+        &lt;ul class="nav-menu-list"&gt;
+            &lt;li class="nav-menu-item" style="--item-index: 0;"&gt;
+                &lt;a href="#about" class="nav-menu-link"&gt;About Us&lt;/a&gt;
+            &lt;/li&gt;
+            &lt;li class="nav-menu-item" style="--item-index: 1;"&gt;
+                &lt;a href="#services" class="nav-menu-link"&gt;Services&lt;/a&gt;
+            &lt;/li&gt;
+            &lt;!-- More items... --&gt;
+        &lt;/ul&gt;
+
+        &lt;div class="nav-menu-footer"&gt;
+            &lt;a href="#contact" class="btn btn-primary btn-large"&gt;
+                Get Started
+            &lt;/a&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/nav&gt;
+                </div>
+            </section>
+
+            <!-- Filter Navigation -->
+            <section class="component-section">
+                <h2>Portfolio Filters</h2>
+                <p>Filter buttons for portfolio and gallery sections.</p>
+
+                <div class="component-demo">
+                    <div class="portfolio-filters">
+                        <button class="filter-btn active" data-filter="all">All Projects</button>
+                        <button class="filter-btn" data-filter="showroom">Showrooms</button>
+                        <button class="filter-btn" data-filter="service">Service Centers</button>
+                        <button class="filter-btn" data-filter="campus">Campuses</button>
+                    </div>
+                </div>
+
+                <div class="component-code">
+&lt;div class="portfolio-filters"&gt;
+    &lt;button class="filter-btn active" data-filter="all"&gt;
+        All Projects
+    &lt;/button&gt;
+    &lt;button class="filter-btn" data-filter="showroom"&gt;
+        Showrooms
+    &lt;/button&gt;
+    &lt;button class="filter-btn" data-filter="service"&gt;
+        Service Centers
+    &lt;/button&gt;
+    &lt;button class="filter-btn" data-filter="campus"&gt;
+        Campuses
+    &lt;/button&gt;
+&lt;/div&gt;
+                </div>
+            </section>
+
+            <!-- Footer Navigation -->
+            <section class="component-section">
+                <h2>Footer Navigation</h2>
+                <p>Footer link groups with social media icons.</p>
+
+                <div class="component-demo" style="background-color: #151f26; padding: 48px;">
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 48px;">
+                        <div class="footer-column">
+                            <h4 class="footer-heading">Navigation</h4>
+                            <ul class="footer-links">
+                                <li><a href="#">About Us</a></li>
+                                <li><a href="#">Services</a></li>
+                                <li><a href="#">Portfolio</a></li>
+                                <li><a href="#">Careers</a></li>
+                            </ul>
+                        </div>
+
+                        <div class="footer-column">
+                            <h4 class="footer-heading">Contact</h4>
+                            <ul class="footer-links">
+                                <li><a href="mailto:info@example.com">info@example.com</a></li>
+                                <li><a href="tel:+15551234567">+1 (555) 123-4567</a></li>
+                                <li>123 Design Avenue</li>
+                            </ul>
+                        </div>
+
+                        <div class="footer-column">
+                            <h4 class="footer-heading">Follow Us</h4>
+                            <div class="social-links">
+                                <a href="#" class="social-link" aria-label="LinkedIn">
+                                    <span>LI</span>
+                                </a>
+                                <a href="#" class="social-link" aria-label="Twitter">
+                                    <span>TW</span>
+                                </a>
+                                <a href="#" class="social-link" aria-label="Instagram">
+                                    <span>IG</span>
+                                </a>
+                                <a href="#" class="social-link" aria-label="Facebook">
+                                    <span>FB</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="component-code">
+&lt;div class="footer-column"&gt;
+    &lt;h4 class="footer-heading"&gt;Navigation&lt;/h4&gt;
+    &lt;ul class="footer-links"&gt;
+        &lt;li&gt;&lt;a href="#"&gt;About Us&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href="#"&gt;Services&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href="#"&gt;Portfolio&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+&lt;/div&gt;
+
+&lt;!-- Social Links --&gt;
+&lt;div class="social-links"&gt;
+    &lt;a href="#" class="social-link" aria-label="LinkedIn"&gt;
+        &lt;span&gt;LI&lt;/span&gt;
+    &lt;/a&gt;
+    &lt;a href="#" class="social-link" aria-label="Twitter"&gt;
+        &lt;span&gt;TW&lt;/span&gt;
+    &lt;/a&gt;
+&lt;/div&gt;
+                </div>
+            </section>
+
+            <!-- Design Guidelines -->
+            <section class="component-section">
+                <h2>Navigation Design Guidelines</h2>
+                <ul style="line-height: 1.8; color: #151f26;">
+                    <li><strong>Header height:</strong> 80px on desktop, 64px on mobile</li>
+                    <li><strong>Fixed positioning:</strong> Header stays fixed at top with scroll behavior</li>
+                    <li><strong>Menu overlay:</strong> Full-screen dark overlay (z-index: 200)</li>
+                    <li><strong>Animation timing:</strong> 0.6s cubic-bezier(0.38, 0.005, 0.215, 1)</li>
+                    <li><strong>Staggered entry:</strong> Menu items animate with 0.1s delay between each</li>
+                    <li><strong>Keyboard support:</strong> ESC key closes menu, tab navigation works</li>
+                    <li><strong>ARIA labels:</strong> All interactive elements have proper labels</li>
+                    <li><strong>Touch targets:</strong> Minimum 44px height for mobile</li>
+                </ul>
+            </section>
+        </div>
+    </div>
+</body>
+</html>

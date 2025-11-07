@@ -197,4 +197,14 @@
   .text-neo {
     @apply font-black uppercase tracking-wide;
   }
+
+  /* Hide scrollbar */
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
 }

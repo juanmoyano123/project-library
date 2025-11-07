@@ -32,7 +32,8 @@ IMPORTANTE:
       "nombre": string,
       "api": string (URL de la API),
       "documentacion": string (URL de docs),
-      "complejidad": "baja" | "media" | "alta"
+      "complejidad": "baja" | "media" | "alta",
+      "funcionalidad": string (REQUERIDO, descripción breve de qué funcionalidad específica aporta esta integración a la app. Ejemplos: "Procesamiento de pagos con tarjeta", "Autenticación social con Google/Facebook", "Envío de notificaciones SMS", "Geolocalización y mapas interactivos")
     }
   ],
   "informacionRequerida": string[] (opcional, qué información del usuario necesitas),
@@ -76,6 +77,7 @@ CRITERIOS DE ANÁLISIS:
    - Propón una solución clara y viable
    - Recomienda stack técnico moderno y probado (Next.js, Supabase, PostgreSQL, Stripe, etc.)
    - Identifica APIs necesarias (ej: WhatsApp, payment gateways, maps, etc.)
+   - Para CADA integración, describe específicamente QUÉ FUNCIONALIDAD aporta a la app (no solo el nombre del servicio)
    - Lista qué información necesitas del usuario para implementar
 
 3. **ANÁLISIS TÉCNICO**:

@@ -24,6 +24,7 @@ export interface Project {
   status: ProjectStatus;
   currentStage: ProjectStage;
   tags: string[];
+  themeId?: string;  // ID del theme asignado (opcional)
 }
 
 export interface Prompt {
@@ -211,6 +212,7 @@ export interface IdeaIntegration {
   api: string;
   documentacion: string;
   complejidad: 'baja' | 'media' | 'alta';
+  funcionalidad?: string;  // Descripción de qué funcionalidad aporta a la app
 }
 
 export interface IdeaSkill {
