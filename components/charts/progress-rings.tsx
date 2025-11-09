@@ -27,12 +27,12 @@ export function ProgressRings({ features }: ProgressRingsProps) {
     const completed = features.filter((f) => f.status === 'done').length;
     const completionRate = (completed / total) * 100;
 
-    // By priority
-    const critical = features.filter((f) => f.priority === 'critical');
+    // By priority (P0 = critical, P1 = high)
+    const critical = features.filter((f) => f.priority === 'P0');
     const criticalDone = critical.filter((f) => f.status === 'done').length;
     const criticalRate = critical.length > 0 ? (criticalDone / critical.length) * 100 : 0;
 
-    const high = features.filter((f) => f.priority === 'high');
+    const high = features.filter((f) => f.priority === 'P1');
     const highDone = high.filter((f) => f.status === 'done').length;
     const highRate = high.length > 0 ? (highDone / high.length) * 100 : 0;
 

@@ -16,9 +16,9 @@ import { X, Filter, Calendar } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 
 export interface FeatureFilters {
-  priority?: Feature['priority'];
-  status?: Feature['status'];
-  assignedTo?: string;
+  priority?: Feature['priority'] | 'all';
+  status?: Feature['status'] | 'all';
+  assignedTo?: string | 'all';
   dateFrom?: string;
   dateTo?: string;
   searchTerm?: string;

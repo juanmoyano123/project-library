@@ -71,11 +71,15 @@ export const ideaSchema = z.object({
   // ================================================
   // ANÁLISIS TÉCNICO
   // ================================================
-  complejidadTecnica: z
-    .number()
-    .int('Debe ser un número entero')
-    .min(1, 'Complejidad mínima es 1')
-    .max(5, 'Complejidad máxima es 5'),
+  complejidadTecnica: z.union([
+    z.literal(1),
+    z.literal(2),
+    z.literal(3),
+    z.literal(4),
+    z.literal(5)
+  ], {
+    errorMap: () => ({ message: 'Complejidad debe ser entre 1 y 5' }),
+  }),
 
   skillsRequeridos: z.array(ideaSkillSchema).optional(),
 
@@ -94,7 +98,7 @@ export const ideaSchema = z.object({
 
   favorita: z.boolean().optional(),
 
-  createdAt: z.string().optional(),
+  createdAt: z.string().default(() => new Date().toISOString()),
   updatedAt: z.string().optional(),
 });
 

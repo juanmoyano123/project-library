@@ -141,6 +141,21 @@ export function useProject(projectId: string) {
     }
   };
 
+  const updateProject = async (id: string, data: Partial<Project>) => {
+    const projectData = await projectStorage.get(id);
+    if (!projectData) return null;
+
+    const updatedProject: Project = {
+      ...projectData,
+      ...data,
+      updatedAt: new Date().toISOString(),
+    };
+
+    await projectStorage.save(updatedProject);
+    await loadProject();
+    return updatedProject;
+  };
+
   return {
     project,
     loading,
@@ -148,6 +163,7 @@ export function useProject(projectId: string) {
     deletePrompt,
     updateProjectStage,
     updatePromptNotes,
+    updateProject,
     refresh: loadProject,
   };
 }

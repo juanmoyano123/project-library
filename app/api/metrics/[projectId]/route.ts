@@ -77,16 +77,16 @@ export async function GET(
     const todoFeatures = features.filter((f) => f.status === 'todo').length;
     const completionRate = (completedFeatures / totalFeatures) * 100;
 
-    // Priority distribution
+    // Priority distribution (map P0/P1/P2 to human-readable labels)
     const priorityDistribution = {
-      critical: features.filter((f) => f.priority === 'critical').length,
-      high: features.filter((f) => f.priority === 'high').length,
-      medium: features.filter((f) => f.priority === 'medium').length,
-      low: features.filter((f) => f.priority === 'low').length,
+      critical: features.filter((f) => f.priority === 'P0').length,
+      high: features.filter((f) => f.priority === 'P1').length,
+      medium: features.filter((f) => f.priority === 'P2').length,
+      low: 0, // No P3 in the current schema
     };
 
     // Priority completion rates
-    const calculatePriorityCompletion = (priority: string) => {
+    const calculatePriorityCompletion = (priority: 'P0' | 'P1' | 'P2') => {
       const priorityFeatures = features.filter((f) => f.priority === priority);
       const done = priorityFeatures.filter((f) => f.status === 'done').length;
       return {
@@ -97,10 +97,10 @@ export async function GET(
     };
 
     const priorityCompletion = {
-      critical: calculatePriorityCompletion('critical'),
-      high: calculatePriorityCompletion('high'),
-      medium: calculatePriorityCompletion('medium'),
-      low: calculatePriorityCompletion('low'),
+      critical: calculatePriorityCompletion('P0'),
+      high: calculatePriorityCompletion('P1'),
+      medium: calculatePriorityCompletion('P2'),
+      low: { total: 0, done: 0, rate: 0 }, // No P3 in the current schema
     };
 
     // Velocity calculation

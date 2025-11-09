@@ -33,7 +33,7 @@ export function BurndownChart({ features }: BurndownChartProps) {
     // Find project end date (latest completedAt or now)
     const endDates = features
       .map((f) => f.completedAt)
-      .filter(Boolean)
+      .filter((date): date is string => date !== undefined && date !== null)
       .sort();
 
     const projectEnd = endDates.length > 0
