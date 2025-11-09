@@ -37,7 +37,7 @@ IMPORTANTE:
     }
   ],
   "informacionRequerida": string[] (opcional, qué información del usuario necesitas),
-  "complejidadTecnica": number (1-5, donde 1=muy fácil, 5=muy difícil),
+  "complejidadTecnica": 1 | 2 | 3 | 4 | 5 (DEBE ser exactamente uno de estos números enteros: 1=muy fácil, 2=fácil, 3=medio, 4=difícil, 5=muy difícil),
   "skillsRequeridos": [
     {
       "skill": string (ej: "React", "PostgreSQL", "Stripe API"),
@@ -198,10 +198,13 @@ Devuelve tu análisis en el formato JSON especificado. Sé específico y prácti
       analysis.urgencia = 'media'; // Default fallback
     }
 
-    // Validate complejidadTecnica range
-    if (analysis.complejidadTecnica < 1 || analysis.complejidadTecnica > 5) {
-      console.error('❌ ComplejidadTecnica fuera de rango:', analysis.complejidadTecnica);
-      analysis.complejidadTecnica = Math.max(1, Math.min(5, Math.round(analysis.complejidadTecnica)));
+    // Validate and fix complejidadTecnica to be exactly 1, 2, 3, 4, or 5
+    if (typeof analysis.complejidadTecnica === 'number') {
+      const rounded = Math.round(analysis.complejidadTecnica);
+      analysis.complejidadTecnica = Math.max(1, Math.min(5, rounded)) as 1 | 2 | 3 | 4 | 5;
+    } else {
+      console.error('❌ ComplejidadTecnica no es un número:', analysis.complejidadTecnica);
+      analysis.complejidadTecnica = 3; // Default to medium complexity
     }
 
     console.log('✅ Análisis completado exitosamente');
