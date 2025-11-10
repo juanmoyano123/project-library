@@ -71,11 +71,26 @@ export function IdeaAnalyzerForm({ onAnalysisComplete, onCancel }: IdeaAnalyzerF
       });
 
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'Error al analizar la idea');
+        let errorMessage = 'Error al analizar la idea';
+        try {
+          const errorData = await response.json();
+          errorMessage = errorData.error || errorMessage;
+        } catch (jsonError) {
+          // Si no se puede parsear el JSON, usar el status text
+          errorMessage = `Error del servidor (${response.status}): ${response.statusText}`;
+        }
+        throw new Error(errorMessage);
       }
 
-      const { analysis } = await response.json();
+      let data;
+      try {
+        data = await response.json();
+      } catch (jsonError) {
+        console.error('❌ Error parseando respuesta:', jsonError);
+        throw new Error('Error: La respuesta del servidor no es válida. Por favor intenta de nuevo.');
+      }
+
+      const { analysis } = data;
       console.log('✅ Análisis completado:', analysis);
 
       onAnalysisComplete(analysis, rawIdea.trim());
