@@ -1,5 +1,8 @@
 import { Pool, QueryResult, QueryResultRow } from 'pg';
 
+// Detect if we're connecting to Neon (cloud) or local PostgreSQL
+const isNeonConnection = (process.env.POSTGRES_HOST || '').includes('neon.tech');
+
 // Create a connection pool
 const pool = new Pool({
   host: process.env.POSTGRES_HOST || 'localhost',
@@ -10,6 +13,12 @@ const pool = new Pool({
   max: 20, // Maximum number of clients in the pool
   idleTimeoutMillis: 30000, // How long a client is allowed to remain idle before being closed
   connectionTimeoutMillis: 2000, // How long to wait for a connection
+  // Enable SSL for Neon connections
+  ...(isNeonConnection && {
+    ssl: {
+      rejectUnauthorized: false
+    }
+  })
 });
 
 // Helper to check if PostgreSQL is configured
