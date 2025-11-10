@@ -15,9 +15,10 @@ import { Lightbulb, Search, Filter, Star, Loader2, Grid, Table, Plug } from 'luc
 interface IdeasDashboardProps {
   onNewIdea?: () => void;
   onViewIdea?: (idea: Idea) => void;
+  refreshTrigger?: number; // Trigger para recargar ideas
 }
 
-export function IdeasDashboard({ onNewIdea, onViewIdea }: IdeasDashboardProps) {
+export function IdeasDashboard({ onNewIdea, onViewIdea, refreshTrigger }: IdeasDashboardProps) {
   const [ideas, setIdeas] = useState<Idea[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
@@ -32,7 +33,7 @@ export function IdeasDashboard({ onNewIdea, onViewIdea }: IdeasDashboardProps) {
 
   useEffect(() => {
     loadIdeas();
-  }, []);
+  }, [refreshTrigger]); // Recargar cuando refreshTrigger cambie
 
   const loadIdeas = async () => {
     setLoading(true);

@@ -18,6 +18,7 @@ export default function IdeasPage() {
   const [currentAnalysis, setCurrentAnalysis] = useState<IdeaAnalysis | null>(null);
   const [currentRawIdea, setCurrentRawIdea] = useState<string>('');
   const [selectedIdea, setSelectedIdea] = useState<Idea | null>(null);
+  const [refreshTrigger, setRefreshTrigger] = useState(0); // Para recargar el dashboard
 
   const handleAnalysisComplete = (analysis: IdeaAnalysis, rawIdea: string) => {
     setCurrentAnalysis(analysis);
@@ -71,6 +72,7 @@ export default function IdeasPage() {
     // Reset and go back to dashboard
     setCurrentAnalysis(null);
     setCurrentRawIdea('');
+    setRefreshTrigger(prev => prev + 1); // Trigger refresh del dashboard
     setViewMode('dashboard');
   };
 
@@ -112,6 +114,7 @@ export default function IdeasPage() {
           <IdeasDashboard
             onNewIdea={() => setViewMode('analyze')}
             onViewIdea={handleViewIdea}
+            refreshTrigger={refreshTrigger}
           />
         )}
 
