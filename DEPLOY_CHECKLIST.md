@@ -36,14 +36,42 @@ postgresql://neondb_owner:npg_abc123xyz@ep-cool-name-123456.us-east-2.aws.neon.t
 
 ---
 
-## 🔧 Paso 2: Crear las Tablas en Neon (2 minutos)
+## 🔧 Paso 2: Migrar tu Base de Datos Completa a Neon (2 minutos)
 
-### 2.1 Abrir el SQL Editor
+### Opción A: Migración Completa Automática (RECOMENDADO) ⚡
+
+Este método migra **TODA** tu base de datos local (proyectos, ideas, features, etc.) a Neon en un solo comando:
+
+1. **Abre tu terminal** en la carpeta del proyecto
+2. **Ejecuta el script de migración**:
+   ```bash
+   ./db/scripts/migrate-to-neon.sh "tu-connection-string-de-neon"
+   ```
+
+   Reemplaza `tu-connection-string-de-neon` con el que copiaste en el Paso 1.2
+
+   **Ejemplo completo:**
+   ```bash
+   ./db/scripts/migrate-to-neon.sh "postgresql://neondb_owner:npg_abc123@ep-cool-name-123456.us-east-2.aws.neon.tech/neondb?sslmode=require"
+   ```
+
+3. **Espera** (toma ~30 segundos dependiendo de la cantidad de datos)
+4. **Verifica** que veas el mensaje: ✅ **"Migration completed successfully!"**
+
+✨ **¡Listo!** Todas tus tablas y datos están ahora en Neon.
+
+---
+
+### Opción B: Migración Manual (solo si Opción A falla)
+
+Si por alguna razón el script automático no funciona:
+
+#### 2.1 Abrir el SQL Editor
 
 1. En el dashboard de Neon, haz clic en **"SQL Editor"** en el menú izquierdo
 2. Se abrirá un editor de SQL
 
-### 2.2 Ejecutar el script de setup
+#### 2.2 Ejecutar el script de setup
 
 1. Abre el archivo `db/migrations/neon-setup.sql` en tu editor de código local
 2. **Copia TODO el contenido** del archivo
@@ -51,9 +79,7 @@ postgresql://neondb_owner:npg_abc123xyz@ep-cool-name-123456.us-east-2.aws.neon.t
 4. Haz clic en **"Run"** (botón verde)
 5. Deberías ver: ✅ **"Setup completed successfully!"**
 
-### 2.3 (Opcional) Importar tus ideas locales
-
-Si quieres migrar las 8 ideas que tienes en local a Neon:
+#### 2.3 Importar tus ideas locales
 
 1. Abre el archivo `db/migrations/local-ideas-export.sql`
 2. Copia TODO el contenido
